@@ -30,6 +30,16 @@ import GridView._
 
 class GridView(vm: GridViewModel) extends View {
 
+  val textFilterField = new TextField {
+    promptText = "Code"
+    textFormatter = new TextFormatter(StringConverter[Option[Int]](
+      Some(_).filter(!_.isEmpty).map(_.toInt),
+      _.map(_.toString).getOrElse("")
+    )) {
+      value <==> vm.textFilter
+    }
+  }
+
   val stage = new PrimaryStage {
     title = "Cortijo Rosario Accounts"
 
@@ -130,17 +140,7 @@ class GridView(vm: GridViewModel) extends View {
 
               add(new HBox {
                 spacing = 5
-                children = Seq(
-                  new TextField {
-                    promptText = "Code"
-                    textFormatter = new TextFormatter(StringConverter[Option[Int]](
-                      Some(_).filter(!_.isEmpty).map(_.toInt),
-                      _.map(_.toString).getOrElse("")
-                    )) {
-                      value <==> vm.textFilter
-                    }
-                  }
-                )
+                children = Seq(textFilterField)
               }, columnIndex = 1, rowIndex = 1)
 
               add(new Label {
@@ -251,5 +251,9 @@ class GridView(vm: GridViewModel) extends View {
         }
       }
     }
+  }
+
+  Platform.runLater {
+    textFilterField.requestFocus()
   }
 }
