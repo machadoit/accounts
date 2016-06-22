@@ -58,14 +58,14 @@ class GridView(vm: GridViewModel) extends View {
                 children = Seq(
                   new ComboBox[Option[TransactionCategory]](vm.transactionCategoryFilters) {
                     converter = StringConverter.toStringConverter {
-                      case None => "All"
+                      case None => "All Categories"
                       case Some(tc) => tc.displayString
                     }
                     value <==> vm.transactionCategoryFilter
                   },
                   new ComboBox[Option[TransactionType]](vm.transactionTypeFilters) {
                     converter = StringConverter.toStringConverter {
-                      case None => "All"
+                      case None => "All Types"
                       case Some(tt) => tt.displayString
                     }
                     value <==> vm.transactionTypeFilter
@@ -139,13 +139,13 @@ class GridView(vm: GridViewModel) extends View {
                     editable = true
                     promptText = "Month"
                     converter = StringConverter[Option[Month]]({
-                      Some(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("All")).map {
+                      Some(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("all")).map {
                         case NumericMonthRegex(s) => Month.of(s.toInt)
                         case s => Month.valueOf(s.toUpperCase)
                       }
                     },
                       {
-                        case None => "All"
+                        case None => ""
                         case Some(m) => m.toString.toLowerCase.capitalize
                       })
                     // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
