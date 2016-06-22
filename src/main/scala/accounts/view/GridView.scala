@@ -17,11 +17,11 @@ import scalafx.scene.layout._
 import scalafx.util.StringConverter
 
 object GridView {
-  val WindowWidth = 1000
+  val WindowWidth = 1200
   val WindowHeight = 800
   val HeaderHeight = 100
   val GridHeight = WindowHeight - HeaderHeight
-  val ColumnScaleFactor = 0.75
+  val ColumnScaleFactor = 0.9
 
   val NumericMonthRegex = "([0-9]{1,2})".r
 }
@@ -121,6 +121,7 @@ class GridView(vm: GridViewModel) extends View {
             },
             new Separator {
               orientation = Orientation.Vertical
+              padding = Insets(top = 10, bottom = 10, left = 30, right = 10)
             },
             new GridPane {
               padding = Insets(5)
