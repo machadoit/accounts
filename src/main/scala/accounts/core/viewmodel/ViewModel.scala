@@ -11,7 +11,7 @@ import scalafx.collections.ObservableBuffer
 
 object ViewModel extends StrictLogging {
 
-  def displayString(rawString: String): String = rawString.replaceAll("(.)([A-Z][a-z])", "$1 $2")
+  def displayString(rawString: String): String = rawString.replaceAll("(.)([A-Z](?=[a-z]))", "$1 $2")
 
   sealed trait Calculation {
     def refresh(): Unit
