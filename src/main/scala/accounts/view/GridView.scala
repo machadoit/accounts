@@ -1,6 +1,6 @@
 package accounts.view
 
-import java.time.LocalDate
+import java.time.{LocalDate, Month}
 
 import accounts.core.view.{CellFactory, View}
 import accounts.record.{AccountType, IncomeType, TransactionCategory, TransactionType}
@@ -18,6 +18,8 @@ object GridView {
   val WindowHeight = 800
   val HeaderHeight = 100
   val GridHeight = WindowHeight - HeaderHeight
+
+  val NumericMonthRegex = "([0-9]{1,2})".r
 }
 
 import GridView._
@@ -65,7 +67,39 @@ class GridView(vm: GridViewModel) extends View {
           children = Seq(
             textFilterField,
             transactionCategoryCombo,
-            transactionTypeCombo
+            transactionTypeCombo,
+            new DatePicker {
+              promptText = "Start Date"
+              value <==> vm.startDateFilter
+            },
+            new DatePicker {
+              promptText = "End Date"
+              value <==> vm.endDateFilter
+            },
+            new ComboBox[Option[Month]](vm.monthFilters) {
+              editable = true
+              promptText = "Month"
+              converter = StringConverter[Option[Month]]({
+                Some(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("All")).map {
+                  case NumericMonthRegex(s) => Month.of(s.toInt)
+                  case s => Month.valueOf(s.toUpperCase)
+                }
+              },
+                {
+                  case None => "All"
+                  case Some(m) => m.toString.toLowerCase.capitalize
+                })
+              value <==> vm.monthFilter
+            },
+            new TextField {
+              promptText = "Year"
+              textFormatter = new TextFormatter(StringConverter[Option[Int]](
+                Some(_).filter(!_.isEmpty).map(_.toInt),
+                _.map(_.toString).getOrElse("")
+              )) {
+                value <==> vm.yearFilter
+              }
+            }
           )
         }
         add(header, columnIndex = 0, rowIndex = 0)

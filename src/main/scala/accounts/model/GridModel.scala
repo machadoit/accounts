@@ -1,5 +1,7 @@
 package accounts.model
 
+import java.time.{LocalDate, Month}
+
 import accounts.record.{Record, Transaction, TransactionCategory, TransactionType}
 import accounts.record.repository.RecordRepository
 
@@ -28,7 +30,22 @@ class GridModel(recordRepository: RecordRepository) {
     }
   }
 
-  private def allPredicates = Seq(transactionCategoryPredicate, transactionTypePredicate)
+  var startDateFilter: Option[LocalDate] = None
+  private def startDatePredicate: Option[Record => Boolean] = startDateFilter.map { d =>
+    !_.date.isBefore(d)
+  }
+
+  var endDateFilter: Option[LocalDate] = None
+  private def endDatePredicate: Option[Record => Boolean] = endDateFilter.map { d =>
+    !_.date.isAfter(d)
+  }
+
+  private def allPredicates = Seq(
+    transactionCategoryPredicate,
+    transactionTypePredicate,
+    startDatePredicate,
+    endDatePredicate
+  )
   private def recordPredicate: Option[Record => Boolean] = allPredicates.fold(None) {
     case (Some(p1), Some(p2)) => Some(r => p1(r) && p2(r))
     case (Some(p1), None) => Some(p1)
