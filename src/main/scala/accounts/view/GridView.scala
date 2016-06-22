@@ -49,7 +49,7 @@ class GridView(vm: GridViewModel) extends View {
         top = new HBox {
           children = Seq(
             new GridPane {
-              padding = Insets(5)
+              padding = Insets(top = 5, bottom = 5, left = 15, right = 20)
               hgap = 5
               vgap = 5
 
@@ -121,7 +121,7 @@ class GridView(vm: GridViewModel) extends View {
             },
             new Separator {
               orientation = Orientation.Vertical
-              padding = Insets(top = 10, bottom = 10, left = 30, right = 10)
+              padding = Insets(top = 10, bottom = 10, left = 10, right = 10)
             },
             new GridPane {
               padding = Insets(5)
