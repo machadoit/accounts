@@ -30,14 +30,7 @@ class GridView(vm: GridViewModel) extends View {
     title = "Cortijo Rosario Accounts"
 
     scene = new Scene(width = WindowWidth, height = WindowHeight) {
-      root = new GridPane {
-        columnConstraints = Seq(
-          new ColumnConstraints { percentWidth = 100 }
-        )
-        rowConstraints = Seq(
-          new RowConstraints { prefHeight = HeaderHeight },
-          new RowConstraints { prefHeight = GridHeight; vgrow = Priority.Always }
-        )
+      root = new BorderPane {
 
         val textFilterField = new TextField {
           textFormatter = new TextFormatter(StringConverter[Option[Int]](
@@ -111,7 +104,7 @@ class GridView(vm: GridViewModel) extends View {
             }
           )
         }
-        add(header, columnIndex = 0, rowIndex = 0)
+        top = header
 
         val table = new TableView[RecordViewModel](vm.records) {
           columnResizePolicy = TableView.ConstrainedResizePolicy
@@ -172,7 +165,7 @@ class GridView(vm: GridViewModel) extends View {
             maxWidth = 100
           }
         }
-        add(table, columnIndex = 0, rowIndex = 1)
+        center = table
       }
     }
   }
