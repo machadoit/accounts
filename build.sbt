@@ -10,3 +10,7 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3"
 libraryDependencies += "com.beachape" %% "enumeratum" % "1.4.4"
 libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.1"
 libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.92-R10"
+
+mainClass in (Compile, run) := Some("accounts.app.Accounts")
+// Fix for "WARNING: Resource "com/sun/javafx/scene/control/skin/modena/modena.css" not found"
+unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/lib/ext/jfxrt.jar"))
