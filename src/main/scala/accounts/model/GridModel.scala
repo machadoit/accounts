@@ -5,10 +5,7 @@ import accounts.record.repository.RecordRepository
 
 class GridModel(recordRepository: RecordRepository) {
 
-  private val all = recordRepository.all.sortWith {
-    case (t1: Transaction, t2: Transaction) => t1.reference < t2.reference
-    case (r1, r2) => r1.date isBefore r2.date
-  }
+  private val all = recordRepository.all
 
   def records: Seq[Record] = recordPredicate match {
     case Some(p) => all.filter(p)
