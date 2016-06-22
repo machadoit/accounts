@@ -48,6 +48,7 @@ class GridViewModel(model: GridModel) extends ViewModel {
     model.transactionTypeFilter = _
   }
   transactionTypeFilter.onUiChange { tt =>
+    // TODO: Don't reset category when type is set back to None
     textFilter() = tt.map(TransactionType.toInt(_))
     transactionCategoryFilter() = tt.map(_.category)
   }
