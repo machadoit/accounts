@@ -83,10 +83,26 @@ class GridView(vm: GridViewModel) extends View {
                 children = Seq(
                     new DatePicker {
                       promptText = "Start Date"
+                      // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+                      focused.onChange { (_, _, focusGained) =>
+                        if (focusGained) {
+                          Platform.runLater {
+                            editor().selectAll()
+                          }
+                        }
+                      }
                       value <==> vm.startDateFilter
                     },
                     new DatePicker {
                       promptText = "End Date"
+                      // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+                      focused.onChange { (_, _, focusGained) =>
+                        if (focusGained) {
+                          Platform.runLater {
+                            editor().selectAll()
+                          }
+                        }
+                      }
                       value <==> vm.endDateFilter
                     }
                   )
