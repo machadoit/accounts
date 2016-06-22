@@ -19,6 +19,7 @@ object GridView {
   val WindowHeight = 800
   val HeaderHeight = 100
   val GridHeight = WindowHeight - HeaderHeight
+  val ColumnScaleFactor = 0.75
 
   val NumericMonthRegex = "([0-9]{1,2})".r
 }
@@ -114,7 +115,7 @@ class GridView(vm: GridViewModel) extends View {
             cellValueFactory = { _.value.date }
             comparator = Ordering.fromLessThan(_.isBefore(_))
             cellFactory = CellFactory[LocalDate](RecordViewModel.formatDate(_))
-            maxWidth = 120
+            maxWidth = 120 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, Option[TransactionType]] {
             text = "Type"
@@ -124,45 +125,45 @@ class GridView(vm: GridViewModel) extends View {
               _.displayString,
               TransactionType.toInt(_).toString
             )
-            maxWidth = 300
+            maxWidth = 300 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, String] {
             text = "Description"
             cellValueFactory = { _.value.description }
-            maxWidth = 300
+            maxWidth = 300 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, Option[IncomeType]] {
             text = "Income Type"
             cellValueFactory = { _.value.incomeType }
             cellFactory = CellFactory.optional[IncomeType](_.displayString)
-            maxWidth = 150
+            maxWidth = 150 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, Option[AccountType]] {
             text = "Account"
             cellValueFactory = { _.value.accountType }
             cellFactory = CellFactory.optional[AccountType](_.toString)
-            maxWidth = 100
+            maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, Option[Int]] {
             text = "Reference"
             cellValueFactory = { _.value.reference }
             comparator = Ordering[Option[Int]]
             cellFactory = CellFactory.optional[Int](_.toString)
-            maxWidth = 100
+            maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, BigDecimal] {
             text = "Credit"
             cellValueFactory = { _.value.credit }
             comparator = Ordering[BigDecimal]
             cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_))
-            maxWidth = 100
+            maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, BigDecimal] {
             text = "Debit"
             cellValueFactory = { _.value.debit }
             comparator = Ordering[BigDecimal]
             cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_))
-            maxWidth = 100
+            maxWidth = 100 * ColumnScaleFactor
           }
         }
         center = table
