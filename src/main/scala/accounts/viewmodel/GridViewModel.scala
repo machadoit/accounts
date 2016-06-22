@@ -21,8 +21,9 @@ class GridViewModel(model: GridModel) extends ViewModel {
         transactionCategoryFilter() = Some(TransactionCategory.withValue(i))
         transactionTypeFilter() = None
       case Some(i) =>
-        transactionCategoryFilter() = None
-        transactionTypeFilter() = Some(TransactionType.fromInt(i))
+        val tt = TransactionType.fromInt(i)
+        transactionCategoryFilter() = Some(tt.category)
+        transactionTypeFilter() = Some(tt)
       case None =>
         transactionCategoryFilter() = None
         transactionTypeFilter() = None
@@ -35,8 +36,8 @@ class GridViewModel(model: GridModel) extends ViewModel {
   val transactionCategoryFilter = Binding[Option[TransactionCategory]](model.transactionCategoryFilter) {
     model.transactionCategoryFilter = _
   }
-  transactionCategoryFilter.onUiChange {
-    textFilter() = transactionCategoryFilter().map(_.value)
+  transactionCategoryFilter.onUiChange { tc =>
+    textFilter() = tc.map(_.value)
     transactionTypeFilter() = None
   }
 
@@ -46,9 +47,9 @@ class GridViewModel(model: GridModel) extends ViewModel {
   val transactionTypeFilter = Binding[Option[TransactionType]](model.transactionTypeFilter) {
     model.transactionTypeFilter = _
   }
-  transactionTypeFilter.onUiChange {
-    textFilter() = transactionTypeFilter().map(TransactionType.toInt(_))
-    transactionCategoryFilter() = None
+  transactionTypeFilter.onUiChange { tt =>
+    textFilter() = tt.map(TransactionType.toInt(_))
+    transactionCategoryFilter() = tt.map(_.category)
   }
 
   val startDateFilter = Binding[Option[LocalDate]](model.startDateFilter) {
