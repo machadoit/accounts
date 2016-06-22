@@ -38,47 +38,49 @@ class GridView(vm: GridViewModel) extends View {
 
         top = new HBox {
           children = Seq(
-            new VBox {
-              children = Seq(
-                new Label {
-                  text = "Filters"
-                  style = "-fx-font-size: 16pt"
-                  padding = Insets(top = 5, bottom = 0, left = 5, right = 0)
-                },
-                new HBox {
-                  padding = Insets(5)
-                  spacing = 5
-                  alignment = Pos.CenterLeft
-                  children = Seq(
-                    new Label {
-                      text = "Transaction type:"
-                      padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
-                    },
-                    new ComboBox[Option[TransactionCategory]](vm.transactionCategoryFilters) {
-                      converter = StringConverter.toStringConverter {
-                        case None => "All"
-                        case Some(tc) => tc.displayString
-                      }
-                      value <==> vm.transactionCategoryFilter
-                    },
-                    new ComboBox[Option[TransactionType]](vm.transactionTypeFilters) {
-                      converter = StringConverter.toStringConverter {
-                        case None => "All"
-                        case Some(tt) => tt.displayString
-                      }
-                      value <==> vm.transactionTypeFilter
+            new GridPane {
+              padding = Insets(5)
+              hgap = 5
+              vgap = 5
+
+              add(new Label {
+                text = "Filters"
+                style = "-fx-font-size: 16pt"
+              }, columnIndex = 0, rowIndex = 0, colspan = 2, rowspan = 1)
+
+              add(new Label {
+                text = "Transaction type:"
+                padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+              }, columnIndex = 0, rowIndex = 1)
+
+              add(new HBox {
+                spacing = 5
+                children = Seq(
+                  new ComboBox[Option[TransactionCategory]](vm.transactionCategoryFilters) {
+                    converter = StringConverter.toStringConverter {
+                      case None => "All"
+                      case Some(tc) => tc.displayString
                     }
-                  )
-                },
-                new HBox {
-                  padding = Insets(5)
-                  spacing = 5
-                  alignment = Pos.CenterLeft
-                  children = Seq(
-                    new Label {
+                    value <==> vm.transactionCategoryFilter
+                  },
+                  new ComboBox[Option[TransactionType]](vm.transactionTypeFilters) {
+                    converter = StringConverter.toStringConverter {
+                      case None => "All"
+                      case Some(tt) => tt.displayString
+                    }
+                    value <==> vm.transactionTypeFilter
+                  }
+                )
+              }, columnIndex = 1, rowIndex = 1)
+
+              add(new Label {
                       text = "Date:"
                       padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
-                    },
+                    }, columnIndex = 0, rowIndex = 2)
+
+              add(new HBox {
+                spacing = 5
+                children = Seq(
                     new DatePicker {
                       promptText = "Start Date"
                       value <==> vm.startDateFilter
@@ -88,83 +90,86 @@ class GridView(vm: GridViewModel) extends View {
                       value <==> vm.endDateFilter
                     }
                   )
-                }
-              )
+                }, columnIndex = 1, rowIndex = 2)
+
             },
             new Separator {
               orientation = Orientation.Vertical
             },
-            new VBox {
-              children = Seq(
-                new Label {
-                  text = "Quick Filters"
-                  style = "-fx-font-size: 16pt"
-                  padding = Insets(top = 5, bottom = 0, left = 5, right = 0)
-                },
-                new HBox {
-                  padding = Insets(5)
-                  spacing = 5
-                  alignment = Pos.CenterLeft
-                  children = Seq(
-                    new Label {
-                      text = "Transaction type:"
-                      padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+            new GridPane {
+              padding = Insets(5)
+              hgap = 5
+              vgap = 5
+
+              add(new Label {
+                text = "Quick Filters"
+                style = "-fx-font-size: 16pt"
+              }, columnIndex = 0, rowIndex = 0, colspan = 2, rowspan = 1)
+
+
+              add(new Label {
+                text = "Transaction type:"
+                padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+              }, columnIndex = 0, rowIndex = 1)
+
+              add(new HBox {
+                spacing = 5
+                children = Seq(
+                  new TextField {
+                    promptText = "Code"
+                    textFormatter = new TextFormatter(StringConverter[Option[Int]](
+                      Some(_).filter(!_.isEmpty).map(_.toInt),
+                      _.map(_.toString).getOrElse("")
+                    )) {
+                      value <==> vm.textFilter
+                    }
+                  }
+                )
+              }, columnIndex = 1, rowIndex = 1)
+
+              add(new Label {
+                text = "Date:"
+                padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+              }, columnIndex = 0, rowIndex = 2)
+
+              add(new HBox {
+                spacing = 5
+                children = Seq(
+                  new ComboBox[Option[Month]](vm.monthFilters) {
+                    editable = true
+                    promptText = "Month"
+                    converter = StringConverter[Option[Month]]({
+                      Some(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("All")).map {
+                        case NumericMonthRegex(s) => Month.of(s.toInt)
+                        case s => Month.valueOf(s.toUpperCase)
+                      }
                     },
-                    new TextField {
-                      promptText = "Code"
-                      textFormatter = new TextFormatter(StringConverter[Option[Int]](
-                        Some(_).filter(!_.isEmpty).map(_.toInt),
-                        _.map(_.toString).getOrElse("")
-                      )) {
-                        value <==> vm.textFilter
+                      {
+                        case None => "All"
+                        case Some(m) => m.toString.toLowerCase.capitalize
+                      })
+                    // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+                    focused.onChange { (_, _, focusGained) =>
+                      if (focusGained) {
+                        Platform.runLater {
+                          editor().selectAll()
+                        }
                       }
                     }
-                  )
-                },
-                new HBox {
-                  padding = Insets(5)
-                  spacing = 5
-                  alignment = Pos.CenterLeft
-                  children = Seq(
-                    new Label {
-                      text = "Date:"
-                      padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
-                    },
-                    new ComboBox[Option[Month]](vm.monthFilters) {
-                      editable = true
-                      promptText = "Month"
-                      converter = StringConverter[Option[Month]]({
-                        Some(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("All")).map {
-                          case NumericMonthRegex(s) => Month.of(s.toInt)
-                          case s => Month.valueOf(s.toUpperCase)
-                        }
-                      },
-                        {
-                          case None => "All"
-                          case Some(m) => m.toString.toLowerCase.capitalize
-                        })
-                      // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-                      focused.onChange { (_, _, focusGained) =>
-                        if (focusGained) {
-                          Platform.runLater {
-                            editor().selectAll()
-                          }
-                        }
-                      }
-                      value <==> vm.monthFilter
-                    },
-                    new TextField {
-                      promptText = "Year"
-                      textFormatter = new TextFormatter(StringConverter[Option[Int]](
-                        Some(_).filter(!_.isEmpty).map(_.toInt),
-                        _.map(_.toString).getOrElse("")
-                      )) {
-                        value <==> vm.yearFilter
-                      }
+                    value <==> vm.monthFilter
+                  },
+                  new TextField {
+                    promptText = "Year"
+                    textFormatter = new TextFormatter(StringConverter[Option[Int]](
+                      Some(_).filter(!_.isEmpty).map(_.toInt),
+                      _.map(_.toString).getOrElse("")
+                    )) {
+                      value <==> vm.yearFilter
                     }
-                  )
-                }
-              )
+                  }
+                )
+              }, columnIndex = 1, rowIndex = 2)
+
             }
           )
         }
