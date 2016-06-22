@@ -7,6 +7,7 @@ import accounts.record.{AccountType, IncomeType, TransactionCategory, Transactio
 import accounts.viewmodel.{GridViewModel, RecordViewModel}
 
 import scalafx.application.JFXApp.PrimaryStage
+import scalafx.application.Platform
 import scalafx.scene.Scene
 import scalafx.scene.control._
 import scalafx.scene.control.TableColumn._
@@ -89,6 +90,14 @@ class GridView(vm: GridViewModel) extends View {
                   case None => "All"
                   case Some(m) => m.toString.toLowerCase.capitalize
                 })
+              // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+              focused.onChange { (_, _, focusGained) =>
+                if (focusGained) {
+                  Platform.runLater {
+                    editor().selectAll()
+                  }
+                }
+              }
               value <==> vm.monthFilter
             },
             new TextField {
