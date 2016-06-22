@@ -30,6 +30,8 @@ class GridModel(recordRepository: RecordRepository) {
     }
   }
 
+  private def combinedTransactionTypePredicate = transactionTypePredicate orElse transactionCategoryPredicate
+
   var startDateFilter: Option[LocalDate] = None
   private def startDatePredicate: Option[Record => Boolean] = startDateFilter.map { d =>
     !_.date.isBefore(d)
@@ -41,8 +43,7 @@ class GridModel(recordRepository: RecordRepository) {
   }
 
   private def allPredicates = Seq(
-    transactionCategoryPredicate,
-    transactionTypePredicate,
+    combinedTransactionTypePredicate,
     startDatePredicate,
     endDatePredicate
   )
