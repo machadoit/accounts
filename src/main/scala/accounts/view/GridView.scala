@@ -6,8 +6,10 @@ import accounts.core.view.{CellFactory, View}
 import accounts.record.{AccountType, IncomeType, TransactionCategory, TransactionType}
 import accounts.viewmodel.{GridViewModel, RecordViewModel}
 
+import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.Platform
+import scalafx.geometry.{Insets, Orientation, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.control._
 import scalafx.scene.control.TableColumn._
@@ -27,87 +29,147 @@ object GridView {
 import GridView._
 
 class GridView(vm: GridViewModel) extends View {
+
   val stage = new PrimaryStage {
     title = "Cortijo Rosario Accounts"
 
     scene = new Scene(width = WindowWidth, height = WindowHeight) {
       root = new BorderPane {
 
-        val textFilterField = new TextField {
-          textFormatter = new TextFormatter(StringConverter[Option[Int]](
-            Some(_).filter(!_.isEmpty).map(_.toInt),
-            _.map(_.toString).getOrElse("")
-          )) {
-            value <==> vm.textFilter
-          }
-        }
-
-        val transactionCategoryCombo = new ComboBox[Option[TransactionCategory]](vm.transactionCategoryFilters) {
-          converter = StringConverter.toStringConverter {
-            case None => "All"
-            case Some(tc) => tc.displayString
-          }
-          value <==> vm.transactionCategoryFilter
-        }
-
-        val transactionTypeCombo = new ComboBox[Option[TransactionType]](vm.transactionTypeFilters) {
-          converter = StringConverter.toStringConverter {
-            case None => "All"
-            case Some(tt) => tt.displayString
-          }
-          value <==> vm.transactionTypeFilter
-        }
-
-        val header = new HBox {
+        top = new HBox {
           children = Seq(
-            textFilterField,
-            transactionCategoryCombo,
-            transactionTypeCombo,
-            new DatePicker {
-              promptText = "Start Date"
-              value <==> vm.startDateFilter
-            },
-            new DatePicker {
-              promptText = "End Date"
-              value <==> vm.endDateFilter
-            },
-            new ComboBox[Option[Month]](vm.monthFilters) {
-              editable = true
-              promptText = "Month"
-              converter = StringConverter[Option[Month]]({
-                Some(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("All")).map {
-                  case NumericMonthRegex(s) => Month.of(s.toInt)
-                  case s => Month.valueOf(s.toUpperCase)
+            new VBox {
+              children = Seq(
+                new Label {
+                  text = "Filters"
+                  style = "-fx-font-size: 16pt"
+                  padding = Insets(top = 5, bottom = 0, left = 5, right = 0)
+                },
+                new HBox {
+                  padding = Insets(5)
+                  spacing = 5
+                  alignment = Pos.CenterLeft
+                  children = Seq(
+                    new Label {
+                      text = "Transaction type:"
+                      padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+                    },
+                    new ComboBox[Option[TransactionCategory]](vm.transactionCategoryFilters) {
+                      converter = StringConverter.toStringConverter {
+                        case None => "All"
+                        case Some(tc) => tc.displayString
+                      }
+                      value <==> vm.transactionCategoryFilter
+                    },
+                    new ComboBox[Option[TransactionType]](vm.transactionTypeFilters) {
+                      converter = StringConverter.toStringConverter {
+                        case None => "All"
+                        case Some(tt) => tt.displayString
+                      }
+                      value <==> vm.transactionTypeFilter
+                    }
+                  )
+                },
+                new HBox {
+                  padding = Insets(5)
+                  spacing = 5
+                  alignment = Pos.CenterLeft
+                  children = Seq(
+                    new Label {
+                      text = "Date:"
+                      padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+                    },
+                    new DatePicker {
+                      promptText = "Start Date"
+                      value <==> vm.startDateFilter
+                    },
+                    new DatePicker {
+                      promptText = "End Date"
+                      value <==> vm.endDateFilter
+                    }
+                  )
                 }
-              },
-                {
-                  case None => "All"
-                  case Some(m) => m.toString.toLowerCase.capitalize
-                })
-              // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-              focused.onChange { (_, _, focusGained) =>
-                if (focusGained) {
-                  Platform.runLater {
-                    editor().selectAll()
-                  }
-                }
-              }
-              value <==> vm.monthFilter
+              )
             },
-            new TextField {
-              promptText = "Year"
-              textFormatter = new TextFormatter(StringConverter[Option[Int]](
-                Some(_).filter(!_.isEmpty).map(_.toInt),
-                _.map(_.toString).getOrElse("")
-              )) {
-                value <==> vm.yearFilter
-              }
+            new Separator {
+              orientation = Orientation.Vertical
+            },
+            new VBox {
+              children = Seq(
+                new Label {
+                  text = "Quick Filters"
+                  style = "-fx-font-size: 16pt"
+                  padding = Insets(top = 5, bottom = 0, left = 5, right = 0)
+                },
+                new HBox {
+                  padding = Insets(5)
+                  spacing = 5
+                  alignment = Pos.CenterLeft
+                  children = Seq(
+                    new Label {
+                      text = "Transaction type:"
+                      padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+                    },
+                    new TextField {
+                      promptText = "Code"
+                      textFormatter = new TextFormatter(StringConverter[Option[Int]](
+                        Some(_).filter(!_.isEmpty).map(_.toInt),
+                        _.map(_.toString).getOrElse("")
+                      )) {
+                        value <==> vm.textFilter
+                      }
+                    }
+                  )
+                },
+                new HBox {
+                  padding = Insets(5)
+                  spacing = 5
+                  alignment = Pos.CenterLeft
+                  children = Seq(
+                    new Label {
+                      text = "Date:"
+                      padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+                    },
+                    new ComboBox[Option[Month]](vm.monthFilters) {
+                      editable = true
+                      promptText = "Month"
+                      converter = StringConverter[Option[Month]]({
+                        Some(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("All")).map {
+                          case NumericMonthRegex(s) => Month.of(s.toInt)
+                          case s => Month.valueOf(s.toUpperCase)
+                        }
+                      },
+                        {
+                          case None => "All"
+                          case Some(m) => m.toString.toLowerCase.capitalize
+                        })
+                      // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+                      focused.onChange { (_, _, focusGained) =>
+                        if (focusGained) {
+                          Platform.runLater {
+                            editor().selectAll()
+                          }
+                        }
+                      }
+                      value <==> vm.monthFilter
+                    },
+                    new TextField {
+                      promptText = "Year"
+                      textFormatter = new TextFormatter(StringConverter[Option[Int]](
+                        Some(_).filter(!_.isEmpty).map(_.toInt),
+                        _.map(_.toString).getOrElse("")
+                      )) {
+                        value <==> vm.yearFilter
+                      }
+                    }
+                  )
+                }
+              )
             }
           )
         }
-        top = header
 
-        val table = new TableView[RecordViewModel](vm.records) {
+        center = new TableView[RecordViewModel](vm.records) {
           columnResizePolicy = TableView.ConstrainedResizePolicy
 
           columns += new TableColumn[RecordViewModel, LocalDate] {
@@ -166,15 +228,7 @@ class GridView(vm: GridViewModel) extends View {
             maxWidth = 100 * ColumnScaleFactor
           }
         }
-        center = table
       }
     }
   }
-
-  // Hack to workaround dodgy column alignment issue
-  stage.width = stage.width() + 200
-  stage.sizeToScene()
-  stage.resizable = false
-  stage.resizable = true
-  stage.delegate.setWidth(stage.width() + 200)
 }
