@@ -209,7 +209,7 @@ class GridView(vm: GridViewModel) extends View {
             maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, Option[TransactionType]] {
-            text = "Type"
+            text = "Transaction Type"
             cellValueFactory = { _.value.transactionType }
             comparator = Ordering.by(_.map(_.displayString))
             cellFactory = CellFactory.optionalWithTooltip[TransactionType](

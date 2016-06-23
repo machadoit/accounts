@@ -20,12 +20,12 @@ class RecordViewModel(record: Record) {
   val credit = ObjectProperty(record.credit)
   val transactionType = ObjectProperty(transactionField(_.transactionType))
   val incomeType = ObjectProperty(transactionField(_.incomeType))
-  val reference = ObjectProperty(transactionField(_.reference))
+  val reference = ObjectProperty(transactionField(_.reference) orElse Some(1))
   val accountType = ObjectProperty(transactionField(_.accountType))
 }
 
 object RecordViewModel {
-  private val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+  private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
   def formatDate(ld: LocalDate): String = dateFormatter.format(ld)
   def formatDecimal(b: BigDecimal): String = f"$b%.2f"
 }
