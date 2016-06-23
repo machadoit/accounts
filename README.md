@@ -8,6 +8,6 @@
   
 * Download/clone the accounts code using the green link above.
 
-* In the root directory of the source, run `sbt "run --transfile=/path/to/TRANS"`
+* In the root directory of the source, run `sbt "run --transfile=C:/path/to/TRANS"`
 
 
