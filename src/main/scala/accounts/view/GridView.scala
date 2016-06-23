@@ -59,9 +59,27 @@ class GridView(vm: GridViewModel) extends View {
               }, columnIndex = 0, rowIndex = 0, colspan = 2, rowspan = 1)
 
               add(new Label {
-                text = "Transaction type:"
+                text = "Account:"
                 padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
               }, columnIndex = 0, rowIndex = 1)
+
+              add(new HBox {
+                spacing = 5
+                children = Seq(
+                  new ComboBox[Option[AccountType]](vm.accountTypeFilters) {
+                    converter = StringConverter.toStringConverter {
+                      case None => "All Accounts"
+                      case Some(at) => at.toString
+                    }
+                    value <==> vm.accountTypeFilter
+                  }
+                )
+              }, columnIndex = 1, rowIndex = 1)
+
+              add(new Label {
+                text = "Transaction type:"
+                padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
+              }, columnIndex = 0, rowIndex = 2)
 
               add(new HBox {
                 spacing = 5
@@ -81,12 +99,12 @@ class GridView(vm: GridViewModel) extends View {
                     value <==> vm.transactionTypeFilter
                   }
                 )
-              }, columnIndex = 1, rowIndex = 1)
+              }, columnIndex = 1, rowIndex = 2)
 
               add(new Label {
                       text = "Date:"
                       padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
-                    }, columnIndex = 0, rowIndex = 2)
+                    }, columnIndex = 0, rowIndex = 3)
 
               add(new HBox {
                 spacing = 5
@@ -116,7 +134,7 @@ class GridView(vm: GridViewModel) extends View {
                       value <==> vm.endDateFilter
                     }
                   )
-                }, columnIndex = 1, rowIndex = 2)
+                }, columnIndex = 1, rowIndex = 3)
 
             },
             new Separator {
@@ -201,11 +219,11 @@ class GridView(vm: GridViewModel) extends View {
             cellFactory = CellFactory[LocalDate](RecordViewModel.formatDate(_))
             maxWidth = 120 * ColumnScaleFactor
           }
-          columns += new TableColumn[RecordViewModel, Option[Int]] {
+          columns += new TableColumn[RecordViewModel, Int] {
             text = "Reference"
             cellValueFactory = { _.value.reference }
-            comparator = Ordering[Option[Int]]
-            cellFactory = CellFactory.optional[Int](_.toString)
+            comparator = Ordering[Int]
+            cellFactory = CellFactory[Int](_.toString)
             maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, Option[TransactionType]] {
@@ -238,10 +256,10 @@ class GridView(vm: GridViewModel) extends View {
             cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
             maxWidth = 100 * ColumnScaleFactor
           }
-          columns += new TableColumn[RecordViewModel, Option[AccountType]] {
+          columns += new TableColumn[RecordViewModel, AccountType] {
             text = "Account"
             cellValueFactory = { _.value.accountType }
-            cellFactory = CellFactory.optional[AccountType](_.toString)
+            cellFactory = CellFactory[AccountType](_.toString)
             maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, String] {

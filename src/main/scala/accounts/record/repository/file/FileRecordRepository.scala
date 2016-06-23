@@ -51,7 +51,9 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
         dateFormatter.parse(fields(0), localDate),
         fields(1),
         BigDecimal(fields(3)),
-        BigDecimal(fields(4))
+        BigDecimal(fields(4)),
+        fields(6).toInt,
+        accountType(fields(7))
       )
     }
   } catch {

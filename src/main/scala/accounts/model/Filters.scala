@@ -2,7 +2,7 @@ package accounts.model
 
 import java.time.LocalDate
 
-import accounts.record.{Record, Transaction, TransactionCategory, TransactionType}
+import accounts.record._
 
 object Filters {
   def combine(predicates: Seq[Option[Record => Boolean]]): Option[Record => Boolean] =
@@ -10,6 +10,11 @@ object Filters {
 }
 
 class Filters {
+
+  var accountTypeFilter: Option[AccountType] = Some(AccountType.Hotel)
+  private def accountTypePredicate: Option[Record => Boolean] = accountTypeFilter.map { at =>
+    _.accountType == at
+  }
 
   var transactionCategoryFilter: Option[TransactionCategory] = None
   private def transactionCategoryPredicate: Option[Record => Boolean] = transactionCategoryFilter.map { tc =>
@@ -42,7 +47,7 @@ class Filters {
     !_.date.isAfter(d)
   }
 
-  private def nonDatePredicates = Seq(combinedTransactionTypePredicate)
+  private def nonDatePredicates = Seq(accountTypePredicate, combinedTransactionTypePredicate)
 
   private[model] def allPredicates = nonDatePredicates ++ Seq(startDatePredicate, endDatePredicate)
 

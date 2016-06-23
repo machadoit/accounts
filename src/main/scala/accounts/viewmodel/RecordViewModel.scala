@@ -20,8 +20,8 @@ class RecordViewModel(record: Record) {
   val credit = ObjectProperty(record.credit)
   val transactionType = ObjectProperty(transactionField(_.transactionType))
   val incomeType = ObjectProperty(transactionField(_.incomeType))
-  val reference = ObjectProperty(transactionField(_.reference) orElse Some(1))
-  val accountType = ObjectProperty(transactionField(_.accountType))
+  val reference = ObjectProperty(record.reference)
+  val accountType = ObjectProperty(record.accountType)
 }
 
 object RecordViewModel {
