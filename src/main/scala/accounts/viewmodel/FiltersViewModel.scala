@@ -7,6 +7,7 @@ import accounts.core.viewmodel.ViewModel._
 import accounts.model.FiltersModel
 import accounts.record.{AccountType, TransactionCategory, TransactionType}
 
+import scalafx.beans.property.BooleanProperty
 import scalafx.collections.ObservableBuffer
 
 class FiltersViewModel(filters: FiltersModel) extends ViewModel {
@@ -16,6 +17,10 @@ class FiltersViewModel(filters: FiltersModel) extends ViewModel {
   )
   val accountTypeFilter = Binding[Option[AccountType]](filters.accountTypeFilter) {
     filters.accountTypeFilter = _
+  }
+
+  val includeOneOffs = Binding.boolean(filters.includeOneOffs) {
+    filters.includeOneOffs = _
   }
 
   val textFilter = Property[Option[Int]](None)

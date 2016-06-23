@@ -8,7 +8,7 @@ import accounts.viewmodel.FiltersViewModel
 
 import scalafx.Includes._
 import scalafx.application.Platform
-import scalafx.geometry.{Insets, Orientation}
+import scalafx.geometry.{Insets, Orientation, Pos}
 import scalafx.scene.control.{TextFormatter, _}
 import scalafx.scene.layout.{GridPane, HBox}
 import scalafx.util.StringConverter
@@ -45,7 +45,8 @@ class HeaderView(vm: FiltersViewModel) extends View {
     }, columnIndex = 0, rowIndex = 1)
 
     add(new HBox {
-      spacing = 5
+      spacing = 100
+      alignment = Pos.CenterLeft
       children = Seq(
         new ComboBox[Option[AccountType]](vm.accountTypeFilters) {
           converter = StringConverter.toStringConverter {
@@ -53,6 +54,10 @@ class HeaderView(vm: FiltersViewModel) extends View {
             case Some(at) => at.toString
           }
           value <==> vm.accountTypeFilter
+        },
+        new CheckBox {
+          text = "Include one-off items"
+          selected <==> vm.includeOneOffs
         }
       )
     }, columnIndex = 1, rowIndex = 1)

@@ -6,7 +6,7 @@ import accounts.core.viewmodel.ViewModel.VmState
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.language.implicitConversions
-import scalafx.beans.property.ObjectProperty
+import scalafx.beans.property.{BooleanProperty, ObjectProperty, Property}
 import scalafx.collections.ObservableBuffer
 
 object ViewModel extends StrictLogging {
@@ -52,20 +52,29 @@ object ViewModel extends StrictLogging {
   }
 
   object Binding {
+
     def apply[A](to: => A)(from: A => Unit)(implicit vmState: VmState): ObjectProperty[A] = {
       val p = ObjectProperty(to)
-      p.onChange {
-        logger.info(s"Binding.onChange: $p (updating: ${vmState.updating})")
-        val updating = vmState.updating
-        try {
-          vmState.updating = true
-          from(p())
-          if (!updating) vmState.refresh()
-        } finally {
-          if (!updating) vmState.updating = false
-        }
-      }
+      p.onChange(handleChange(p, from))
       p
+    }
+
+    def boolean(to: => Boolean)(from: Boolean => Unit)(implicit vmState: VmState): BooleanProperty = {
+      val p = BooleanProperty(to)
+      p.onChange(handleChange(p, from))
+      p
+    }
+
+    private def handleChange[A](p: Property[A, _], from: A => Unit)(implicit vmState: VmState): Unit = {
+      logger.info(s"Binding.onChange: $p (updating: ${vmState.updating})")
+      val updating = vmState.updating
+      try {
+        vmState.updating = true
+        from(p())
+        if (!updating) vmState.refresh()
+      } finally {
+        if (!updating) vmState.updating = false
+      }
     }
   }
 

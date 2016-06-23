@@ -16,6 +16,18 @@ class FiltersModel {
     _.accountType == at
   }
 
+  var includeOneOffs: Boolean = true
+  private def oneOffPredicate: Option[Record => Boolean] = {
+    if (includeOneOffs) {
+      None
+    } else {
+      Some {
+        case t: Transaction => !t.transactionType.oneOff
+        case _ => true
+      }
+    }
+  }
+
   var transactionCategoryFilter: Option[TransactionCategory] = None
   private def transactionCategoryPredicate: Option[Record => Boolean] = transactionCategoryFilter.map { tc =>
     r => r match {
@@ -47,7 +59,7 @@ class FiltersModel {
     !_.date.isAfter(d)
   }
 
-  private def nonDatePredicates = Seq(accountTypePredicate, combinedTransactionTypePredicate)
+  private def nonDatePredicates = Seq(accountTypePredicate, oneOffPredicate, combinedTransactionTypePredicate)
 
   private[model] def allPredicates = nonDatePredicates ++ Seq(startDatePredicate, endDatePredicate)
 
