@@ -17,7 +17,8 @@ import scalafx.scene.layout._
 import scalafx.util.StringConverter
 
 object GridView {
-  val ColumnScaleFactor = 0.9
+  // Ensure the sum of the max width of the columns is larger than the maximum reasonable window size
+  val ColumnScaleFactor = 10
 }
 
 import GridView._

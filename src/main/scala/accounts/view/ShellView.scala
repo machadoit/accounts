@@ -9,7 +9,7 @@ import scalafx.scene.Scene
 import scalafx.scene.layout._
 
 object ShellView {
-  val WindowWidth = 1200
+  val WindowWidth = Region.USE_COMPUTED_SIZE
   val WindowHeight = 800
   val HeaderHeight = 100
   val GridHeight = WindowHeight - HeaderHeight
