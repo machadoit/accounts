@@ -1,19 +1,30 @@
 package accounts.view
 
 import accounts.core.view.View
-import accounts.viewmodel.{TotalsViewModel, RecordViewModel}
+import accounts.viewmodel.{RecordViewModel, TotalsViewModel}
 
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Label, TextField, TextFormatter}
-import scalafx.scene.layout.{GridPane, HBox}
+import scalafx.scene.layout._
 import scalafx.util.StringConverter
 
 class FooterView(vm: TotalsViewModel) extends View {
 
   val content = new GridPane {
     padding = Insets(5)
-    hgap = 5
+    hgap = 50
     vgap = 5
+    columnConstraints = Seq(
+      new ColumnConstraints(Region.USE_COMPUTED_SIZE) {
+        percentWidth = 20
+      },
+      new ColumnConstraints(Region.USE_COMPUTED_SIZE) {
+        percentWidth = 40
+      },
+      new ColumnConstraints(Region.USE_COMPUTED_SIZE) {
+        percentWidth = 40
+      }
+    )
 
     add(new Label {
       text = "Totals"
@@ -27,7 +38,7 @@ class FooterView(vm: TotalsViewModel) extends View {
 
     add(new HBox {
       spacing = 5
-      alignment = Pos.CenterLeft
+      alignment = Pos.CenterRight
       children = Seq(
         new Label {
           text = "Credit:"
@@ -55,7 +66,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            RecordViewModel.formatDecimal(_)
+            d => RecordViewModel.formatDecimal(d * -1)
           )) {
             value <== vm.periodDebit
           }
@@ -70,7 +81,7 @@ class FooterView(vm: TotalsViewModel) extends View {
 
     add(new HBox {
       spacing = 5
-      alignment = Pos.CenterLeft
+      alignment = Pos.CenterRight
       children = Seq(
         new Label {
           text = "Credit:"
@@ -98,7 +109,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            RecordViewModel.formatDecimal(_)
+            d => RecordViewModel.formatDecimal(d * -1)
           )) {
             value <== vm.broughtForwardDebit
           }
@@ -113,7 +124,7 @@ class FooterView(vm: TotalsViewModel) extends View {
 
     add(new HBox {
       spacing = 5
-      alignment = Pos.CenterLeft
+      alignment = Pos.CenterRight
       children = Seq(
         new Label {
           text = "Credit:"
@@ -141,7 +152,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            RecordViewModel.formatDecimal(_)
+            d => RecordViewModel.formatDecimal(d * -1)
           )) {
             value <== vm.toDateDebit
           }
