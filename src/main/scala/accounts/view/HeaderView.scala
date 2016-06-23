@@ -4,7 +4,7 @@ import java.time.Month
 
 import accounts.core.view.View
 import accounts.record.{AccountType, TransactionCategory, TransactionType}
-import accounts.viewmodel.FiltersViewModel
+import accounts.viewmodel.{FiltersViewModel, PnlViewModel}
 
 import scalafx.Includes._
 import scalafx.application.Platform
@@ -17,7 +17,7 @@ object HeaderView {
   val NumericMonthRegex = "([0-9]{1,2})".r
 }
 
-class HeaderView(vm: FiltersViewModel) extends View {
+class HeaderView(vm: FiltersViewModel, pnl: PnlView) extends View {
 
   val textFilterField = new TextField {
     promptText = "Code"
@@ -131,6 +131,8 @@ class HeaderView(vm: FiltersViewModel) extends View {
       text = "Quick Filters"
       style = "-fx-font-size: 16pt"
     }, columnIndex = 3, rowIndex = 0, colspan = 2, rowspan = 1)
+
+    add(pnl.content, columnIndex = 3, rowIndex = 1)
 
     add(new Label {
       text = "Transaction type:"

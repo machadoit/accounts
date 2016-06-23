@@ -8,4 +8,6 @@ class ShellViewModel(model: ShellModel) {
   val filters = new FiltersViewModel(model.filters)
   val totals = new TotalsViewModel(model.totals)
 
+  val pnl = new PnlViewModel(model.pnl)
+
 }

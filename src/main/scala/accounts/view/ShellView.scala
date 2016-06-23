@@ -17,7 +17,8 @@ import ShellView._
 
 class ShellView(vm: ShellViewModel) extends View {
 
-  val header = new HeaderView(vm.filters)
+  val pnl = new PnlView(vm.pnl)
+  val header = new HeaderView(vm.filters, pnl)
   val grid = new GridView(vm.grid)
   val footer = new FooterView(vm.totals)
 
