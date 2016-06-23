@@ -228,14 +228,14 @@ class GridView(vm: GridViewModel) extends View {
             text = "Credit"
             cellValueFactory = { _.value.credit }
             comparator = Ordering[BigDecimal]
-            cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_))
+            cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
             maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, BigDecimal] {
             text = "Debit"
             cellValueFactory = { _.value.debit }
             comparator = Ordering[BigDecimal]
-            cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_))
+            cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
             maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, Option[AccountType]] {
