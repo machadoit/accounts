@@ -11,6 +11,8 @@ import scalafx.collections.ObservableBuffer
 
 class GridViewModel(model: GridModel) extends ViewModel {
 
+  val totals = new TotalsViewModel(model)
+
   val records: ObservableBuffer[RecordViewModel] =
     CalculatedBuffer(model.records.map(new RecordViewModel(_)))
 
@@ -33,8 +35,8 @@ class GridViewModel(model: GridModel) extends ViewModel {
   val transactionCategoryFilters = ObservableBuffer(
     None +: TransactionCategory.values.sortBy(_.value).map(Some(_))
   )
-  val transactionCategoryFilter = Binding[Option[TransactionCategory]](model.transactionCategoryFilter) {
-    model.transactionCategoryFilter = _
+  val transactionCategoryFilter = Binding[Option[TransactionCategory]](model.filters.transactionCategoryFilter) {
+    model.filters.transactionCategoryFilter = _
   }
   transactionCategoryFilter.onUiChange { tc =>
     textFilter() = tc.map(_.value)
@@ -44,8 +46,8 @@ class GridViewModel(model: GridModel) extends ViewModel {
   val transactionTypeFilters = ObservableBuffer(
     None +: TransactionType.values.sortBy(TransactionType.toInt).map(Some(_))
   )
-  val transactionTypeFilter = Binding[Option[TransactionType]](model.transactionTypeFilter) {
-    model.transactionTypeFilter = _
+  val transactionTypeFilter = Binding[Option[TransactionType]](model.filters.transactionTypeFilter) {
+    model.filters.transactionTypeFilter = _
   }
   transactionTypeFilter.onUiChange { tt =>
     // TODO: Don't reset category when type is set back to None
@@ -53,8 +55,8 @@ class GridViewModel(model: GridModel) extends ViewModel {
     transactionCategoryFilter() = tt.map(_.category)
   }
 
-  val startDateFilter = Binding[Option[LocalDate]](model.startDateFilter) {
-    model.startDateFilter = _
+  val startDateFilter = Binding[Option[LocalDate]](model.filters.startDateFilter) {
+    model.filters.startDateFilter = _
   }
   startDateFilter.onUiChange { d =>
     if (d.isDefined) {
@@ -63,8 +65,8 @@ class GridViewModel(model: GridModel) extends ViewModel {
     }
   }
 
-  val endDateFilter = Binding[Option[LocalDate]](model.endDateFilter) {
-    model.endDateFilter = _
+  val endDateFilter = Binding[Option[LocalDate]](model.filters.endDateFilter) {
+    model.filters.endDateFilter = _
   }
   endDateFilter.onUiChange { d =>
     if (d.isDefined) {

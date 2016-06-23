@@ -117,8 +117,10 @@ object ViewModel extends StrictLogging {
   }
 
   implicit def toRichProperty[A](p: ObjectProperty[A]): RichProperty[A] = new RichProperty(p)
+
+  val singletonVmState = new VmState
 }
 
 trait ViewModel {
-  implicit protected val vmState = new VmState
+  implicit protected val vmState = ViewModel.singletonVmState
 }

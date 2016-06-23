@@ -250,6 +250,146 @@ class GridView(vm: GridViewModel) extends View {
             maxWidth = 100 * ColumnScaleFactor
           }
         }
+
+        bottom = new GridPane {
+          padding = Insets(5)
+          hgap = 5
+          vgap = 5
+
+          add(new Label {
+            text = "Totals"
+            style = "-fx-font-size: 16pt"
+          }, columnIndex = 0, rowIndex = 0, colspan = 3, rowspan = 1)
+
+          add(new Label {
+            text = "Period"
+            style = "-fx-font-size: 12pt"
+          }, columnIndex = 0, rowIndex = 1)
+
+          add(new HBox {
+            spacing = 5
+            alignment = Pos.CenterLeft
+            children = Seq(
+              new Label {
+                text = "Credit:"
+              },
+              new TextField {
+                alignment = Pos.CenterRight
+                editable = false
+                textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
+                  RecordViewModel.formatDecimal(_)
+                )) {
+                  value <== vm.totals.periodCredit
+                }
+              }
+            )
+          }, columnIndex = 1, rowIndex = 1)
+
+          add(new HBox {
+            spacing = 5
+            alignment = Pos.CenterLeft
+            children = Seq(
+              new Label {
+                text = "Debit:"
+              },
+              new TextField {
+                alignment = Pos.CenterRight
+                editable = false
+                textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
+                  RecordViewModel.formatDecimal(_)
+                )) {
+                  value <== vm.totals.periodDebit
+                }
+              }
+            )
+          }, columnIndex = 2, rowIndex = 1)
+
+          add(new Label {
+            text = "Brought Forward"
+            style = "-fx-font-size: 12pt"
+          }, columnIndex = 0, rowIndex = 2)
+
+          add(new HBox {
+            spacing = 5
+            alignment = Pos.CenterLeft
+            children = Seq(
+              new Label {
+                text = "Credit:"
+              },
+              new TextField {
+                alignment = Pos.CenterRight
+                editable = false
+                textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
+                  RecordViewModel.formatDecimal(_)
+                )) {
+                  value <== vm.totals.broughtForwardCredit
+                }
+              }
+            )
+          }, columnIndex = 1, rowIndex = 2)
+
+          add(new HBox {
+            spacing = 5
+            alignment = Pos.CenterLeft
+            children = Seq(
+              new Label {
+                text = "Debit:"
+              },
+              new TextField {
+                alignment = Pos.CenterRight
+                editable = false
+                textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
+                  RecordViewModel.formatDecimal(_)
+                )) {
+                  value <== vm.totals.broughtForwardDebit
+                }
+              }
+            )
+          }, columnIndex = 2, rowIndex = 2)
+
+          add(new Label {
+            text = "Year To Date"
+            style = "-fx-font-size: 12pt"
+          }, columnIndex = 0, rowIndex = 3)
+
+          add(new HBox {
+            spacing = 5
+            alignment = Pos.CenterLeft
+            children = Seq(
+              new Label {
+                text = "Credit:"
+              },
+              new TextField {
+                alignment = Pos.CenterRight
+                editable = false
+                textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
+                  RecordViewModel.formatDecimal(_)
+                )) {
+                  value <== vm.totals.toDateCredit
+                }
+              }
+            )
+          }, columnIndex = 1, rowIndex = 3)
+
+          add(new HBox {
+            spacing = 5
+            alignment = Pos.CenterLeft
+            children = Seq(
+              new Label {
+                text = "Debit:"
+              },
+              new TextField {
+                alignment = Pos.CenterRight
+                editable = false
+                textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
+                  RecordViewModel.formatDecimal(_)
+                )) {
+                  value <== vm.totals.toDateDebit
+                }
+              }
+            )
+          }, columnIndex = 2, rowIndex = 3)
+        }
       }
     }
   }
