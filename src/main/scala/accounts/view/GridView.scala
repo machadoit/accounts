@@ -201,6 +201,13 @@ class GridView(vm: GridViewModel) extends View {
             cellFactory = CellFactory[LocalDate](RecordViewModel.formatDate(_))
             maxWidth = 120 * ColumnScaleFactor
           }
+          columns += new TableColumn[RecordViewModel, Option[Int]] {
+            text = "Reference"
+            cellValueFactory = { _.value.reference }
+            comparator = Ordering[Option[Int]]
+            cellFactory = CellFactory.optional[Int](_.toString)
+            maxWidth = 100 * ColumnScaleFactor
+          }
           columns += new TableColumn[RecordViewModel, Option[TransactionType]] {
             text = "Type"
             cellValueFactory = { _.value.transactionType }
@@ -211,29 +218,11 @@ class GridView(vm: GridViewModel) extends View {
             )
             maxWidth = 300 * ColumnScaleFactor
           }
-          columns += new TableColumn[RecordViewModel, String] {
-            text = "Description"
-            cellValueFactory = { _.value.description }
-            maxWidth = 300 * ColumnScaleFactor
-          }
           columns += new TableColumn[RecordViewModel, Option[IncomeType]] {
             text = "Income Type"
             cellValueFactory = { _.value.incomeType }
             cellFactory = CellFactory.optional[IncomeType](_.displayString)
             maxWidth = 150 * ColumnScaleFactor
-          }
-          columns += new TableColumn[RecordViewModel, Option[AccountType]] {
-            text = "Account"
-            cellValueFactory = { _.value.accountType }
-            cellFactory = CellFactory.optional[AccountType](_.toString)
-            maxWidth = 100 * ColumnScaleFactor
-          }
-          columns += new TableColumn[RecordViewModel, Option[Int]] {
-            text = "Reference"
-            cellValueFactory = { _.value.reference }
-            comparator = Ordering[Option[Int]]
-            cellFactory = CellFactory.optional[Int](_.toString)
-            maxWidth = 100 * ColumnScaleFactor
           }
           columns += new TableColumn[RecordViewModel, BigDecimal] {
             text = "Credit"
@@ -248,6 +237,17 @@ class GridView(vm: GridViewModel) extends View {
             comparator = Ordering[BigDecimal]
             cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_))
             maxWidth = 100 * ColumnScaleFactor
+          }
+          columns += new TableColumn[RecordViewModel, Option[AccountType]] {
+            text = "Account"
+            cellValueFactory = { _.value.accountType }
+            cellFactory = CellFactory.optional[AccountType](_.toString)
+            maxWidth = 100 * ColumnScaleFactor
+          }
+          columns += new TableColumn[RecordViewModel, String] {
+            text = "Description"
+            cellValueFactory = { _.value.description }
+            maxWidth = 300 * ColumnScaleFactor
           }
         }
 
