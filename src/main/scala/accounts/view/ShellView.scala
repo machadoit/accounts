@@ -36,6 +36,9 @@ class ShellView(vm: ShellViewModel) extends View {
   }
 
   Platform.runLater {
+    // Workaround for grid column misalignment issue
+    stage.width = stage.width() + 1
+    // Set focus to the transaction code field
     header.textFilterField.requestFocus()
   }
 }
