@@ -4,12 +4,12 @@ import java.time.LocalDate
 
 import accounts.record._
 
-object Filters {
+object FiltersModel {
   def combine(predicates: Seq[Option[Record => Boolean]]): Option[Record => Boolean] =
     predicates.flatten.reduceOption { (p1, p2) => { r => p1(r) && p2(r) } }
 }
 
-class Filters {
+class FiltersModel {
 
   var accountTypeFilter: Option[AccountType] = Some(AccountType.Hotel)
   private def accountTypePredicate: Option[Record => Boolean] = accountTypeFilter.map { at =>

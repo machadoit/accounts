@@ -2,9 +2,9 @@ package accounts.viewmodel
 
 import accounts.core.viewmodel.ViewModel
 import accounts.core.viewmodel.ViewModel.CalculatedProperty
-import accounts.model.GridModel
+import accounts.model.TotalsModel
 
-class TotalsViewModel(model: GridModel) extends ViewModel {
+class TotalsViewModel(model: TotalsModel) extends ViewModel {
 
   val periodCredit = CalculatedProperty(model.periodTotals.totalCredit)
   val periodDebit = CalculatedProperty(model.periodTotals.totalDebit)
