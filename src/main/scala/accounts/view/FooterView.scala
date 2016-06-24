@@ -11,7 +11,7 @@ import scalafx.util.StringConverter
 class FooterView(vm: TotalsViewModel) extends View {
 
   val content = new GridPane {
-    padding = Insets(5)
+    padding = Insets(top = 5, bottom = 5, left = 15, right = 15)
     hgap = 50
     vgap = 5
     columnConstraints = Seq(
