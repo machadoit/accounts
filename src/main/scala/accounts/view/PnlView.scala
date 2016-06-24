@@ -47,7 +47,7 @@ class PnlView(vm: PnlViewModel) extends View {
           rowFactory = { _ =>
             new TableRow[PnlSummaryViewModel] {
               item.onChange { (_, _, newValue) =>
-                if (newValue.isTotal) style = "-fx-font-weight: bold"
+                if (newValue != null && newValue.isTotal) style = "-fx-font-weight: bold"
                 else style = "-fx-font-weight: normal"
               }
             }
