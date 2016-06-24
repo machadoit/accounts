@@ -9,7 +9,6 @@ sealed abstract class TransactionCategory(val value: Int) extends IntEnumEntry {
 }
 
 object TransactionCategory extends IntEnum[TransactionCategory] {
-  case object BroughtForward extends TransactionCategory(0)
   case object Food extends TransactionCategory(1)
   case object LocalPayment extends TransactionCategory(2) {
     override def shortString = "L/P"

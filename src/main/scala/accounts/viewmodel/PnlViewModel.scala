@@ -64,7 +64,7 @@ object PnlViewModel {
 
 class PnlViewModel(model: PnlModel) extends ViewModel {
 
-  def categories = TransactionCategory.values diff Seq(TransactionCategory.BroughtForward)
+  def categories = TransactionCategory.values
 
   def all: ObservableBuffer[PnlSummaryViewModel] =
     CalculatedBuffer(model.summaries.map(new PnlPeriodSummaryViewModel(_)) :+ new PnlTotalsViewModel(model.total))
