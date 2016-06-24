@@ -11,11 +11,12 @@ import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.control._
 import scalafx.scene.control.TableColumn._
+import scalafx.scene.layout.Region
 import scalafx.stage.Stage
 
 object PnlView {
   val WindowWidth = 1200
-  val WindowHeight = 900
+  val WindowHeight = Region.USE_COMPUTED_SIZE
 
   val ColumnScaleFactor = 10
 }
