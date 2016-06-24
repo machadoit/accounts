@@ -4,12 +4,12 @@ import java.time.LocalDate
 
 import accounts.core.view.{CellFactory, View}
 import accounts.record.TransactionCategory
-import accounts.viewmodel.{PnlSummaryViewModel, PnlViewModel, RecordViewModel}
+import accounts.viewmodel._
 
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
-import scalafx.scene.control.{Button, TableCell, TableColumn, TableView}
+import scalafx.scene.control._
 import scalafx.scene.control.TableColumn._
 import scalafx.stage.Stage
 
@@ -33,16 +33,24 @@ class PnlView(vm: PnlViewModel) extends View {
     }
   }
 
-
   val pnlWindow = new Stage {
     scene = new Scene(width = WindowWidth, height = WindowHeight) {
       root = new TableView[PnlSummaryViewModel](vm.all) {
         columnResizePolicy = TableView.ConstrainedResizePolicy
 
-        columns += new TableColumn[PnlSummaryViewModel, String] {
-          //text = ""
+        columns += new TableColumn[PnlSummaryViewModel, PnlSummaryName] {
           cellValueFactory = {
             _.value.name
+          }
+          cellFactory = CellFactory[PnlSummaryName](_.toString)
+          sortable = false
+          rowFactory = { _ =>
+            new TableRow[PnlSummaryViewModel] {
+              item.onChange { (_, _, newValue) =>
+                if (newValue.isTotal) style = "-fx-font-weight: bold"
+                else style = "-fx-font-weight: normal"
+              }
+            }
           }
           maxWidth = 100 * ColumnScaleFactor
         }
@@ -53,7 +61,7 @@ class PnlView(vm: PnlViewModel) extends View {
             cellValueFactory = {
               _.value.profit(tc)
             }
-            comparator = Ordering[BigDecimal]
+            sortable = false
             cellFactory = CellFactory[BigDecimal](PnlViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
             maxWidth = 100 * ColumnScaleFactor
           }
@@ -64,7 +72,7 @@ class PnlView(vm: PnlViewModel) extends View {
           cellValueFactory = {
             _.value.totalProfit
           }
-          comparator = Ordering[BigDecimal]
+          sortable = false
           cellFactory = _ => {
             new TableCell[PnlSummaryViewModel, BigDecimal] {
               item.onChange { (_, _, newValue) =>
