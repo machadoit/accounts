@@ -17,7 +17,7 @@ object HeaderView {
   val NumericMonthRegex = "([0-9]{1,2})".r
 }
 
-class HeaderView(vm: FiltersViewModel, pnl: PnlView) extends View {
+class HeaderView(vm: FiltersViewModel, addRecord: AddRecordView) extends View {
 
   val textFilterField = new TextField {
     promptText = "Code"
@@ -187,5 +187,18 @@ class HeaderView(vm: FiltersViewModel, pnl: PnlView) extends View {
         }
       )
     }, columnIndex = 4, rowIndex = 3)
+
+    add(new Separator {
+      orientation = Orientation.Vertical
+      padding = Insets(top = 10, bottom = 10, left = 10, right = 10)
+    }, columnIndex = 5, rowIndex = 0, colspan = 1, rowspan = 4)
+
+    add(new Label {
+      text = "Actions"
+      style = "-fx-font-size: 16pt"
+    }, columnIndex = 6, rowIndex = 0, colspan = 2, rowspan = 1)
+
+    add(addRecord.button, columnIndex = 6, rowIndex = 1)
+
   }
 }

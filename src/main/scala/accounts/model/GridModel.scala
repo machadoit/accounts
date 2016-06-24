@@ -7,7 +7,7 @@ import accounts.record.repository.RecordRepository
 
 class GridModel(recordRepository: RecordRepository, filters: FiltersModel) {
 
-  private val all = recordRepository.all
+  var all = recordRepository.all
 
   private[model] def filterAll(predicates: Seq[Option[Record => Boolean]]) = FiltersModel.combine(predicates) match {
     case Some(p) => all.filter(p)
@@ -15,4 +15,14 @@ class GridModel(recordRepository: RecordRepository, filters: FiltersModel) {
   }
 
   def records: Seq[Record] = filterAll(filters.allPredicates)
+
+  private def reload(): Unit = {
+    all = recordRepository.all
+  }
+
+  def save(r: Record): Unit = {
+    recordRepository.save(r)
+    reload()
+  }
+
 }

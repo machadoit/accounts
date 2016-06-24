@@ -9,4 +9,6 @@ class ShellModel(records: RecordRepository) {
   val totals = new TotalsModel(grid, filters)
 
   val pnl = new PnlModel(grid, filters)
+
+  val addRecord = new AddRecordModel(grid, filters)
 }

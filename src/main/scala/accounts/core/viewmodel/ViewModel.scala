@@ -17,7 +17,7 @@ object ViewModel extends StrictLogging {
     def refresh(): Unit
   }
 
-  case class PropertyCalculation[A](property: ObjectProperty[A], calculation: () => A)
+  case class PropertyCalculation[A](property: Property[A, _], calculation: () => A)
   extends Calculation {
     def refresh(): Unit = {
       property() = calculation()
@@ -84,6 +84,11 @@ object ViewModel extends StrictLogging {
       vmState.calculations += PropertyCalculation(p, () => calculation)
       p
     }
+    def boolean(calculation: => Boolean)(implicit vmState: VmState): BooleanProperty = {
+      val p = BooleanProperty(calculation)
+      vmState.calculations += PropertyCalculation(p, () => calculation)
+      p
+    }
   }
 
   object CalculatedBuffer {
@@ -98,7 +103,7 @@ object ViewModel extends StrictLogging {
     var updating: Boolean = false
     val calculations = mutable.Buffer[Calculation]()
 
-    private[ViewModel] def refresh(): Unit = {
+    def refresh(): Unit = {
       logger.info(s"Refreshing: $calculations")
       calculations.foreach(_.refresh())
     }

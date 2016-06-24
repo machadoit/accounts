@@ -18,9 +18,12 @@ import ShellView._
 
 class ShellView(vm: ShellViewModel) extends View {
 
-  val pnl = new PnlView(vm.pnl)
-  val header = new HeaderView(vm.filters, pnl)
+  val addRecord = new AddRecordView(vm.addRecord)
+  val header = new HeaderView(vm.filters, addRecord)
+
   val grid = new GridView(vm.grid)
+  val pnl = new PnlView(vm.pnl)
+
   val footer = new FooterView(vm.totals)
 
   val stage = new PrimaryStage {

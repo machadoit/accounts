@@ -10,6 +10,7 @@ import accounts.record.repository.RecordRepository
 import com.github.tototoshi.csv._
 import com.typesafe.scalalogging.StrictLogging
 
+import scala.collection.mutable
 import scala.util.control.NonFatal
 
 class FileRecordRepository(file: java.io.File) extends RecordRepository with StrictLogging {
@@ -18,7 +19,9 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
     override def queryFrom(temporal: TemporalAccessor): LocalDate = LocalDate.from(temporal)
   }
 
-  override def all: Seq[Record] = {
+  override def all: Seq[Record] = stored ++ saved
+
+  private val stored: Seq[Record] = {
     val reader = CSVReader.open(file)
     try {
       for {
@@ -31,6 +34,12 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
     } finally {
       reader.close()
     }
+  }
+
+  private val saved: mutable.Buffer[Record] = mutable.Buffer()
+
+  override def save(r: Record): Unit = {
+    saved += r
   }
 
   private def parse(fields: Seq[String]): Record = try {
