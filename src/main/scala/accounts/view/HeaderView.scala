@@ -178,7 +178,10 @@ class HeaderView(vm: FiltersViewModel, pnl: PnlView) extends View {
         new TextField {
           promptText = "Year"
           textFormatter = new TextFormatter(StringConverter[Option[Int]](
-            Some(_).filter(!_.isEmpty).map(_.toInt),
+            Some(_).filter(!_.isEmpty).map { s =>
+              val i = s.toInt
+              if (i > 100) i else i + 2000
+            },
             _.map(_.toString).getOrElse("")
           )) {
             value <==> vm.yearFilter
