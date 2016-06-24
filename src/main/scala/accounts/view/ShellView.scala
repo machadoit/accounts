@@ -6,6 +6,7 @@ import accounts.viewmodel.ShellViewModel
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.Platform
 import scalafx.scene.Scene
+import scalafx.scene.control.{Tab, TabPane}
 import scalafx.scene.layout._
 
 object ShellView {
@@ -28,7 +29,20 @@ class ShellView(vm: ShellViewModel) extends View {
     scene = new Scene(width = WindowWidth, height = WindowHeight) {
       root = new BorderPane {
         top = header.content
-        center = grid.content
+        center = new TabPane {
+          tabs = Seq(
+            new Tab {
+              text = "Transactions"
+              closable = false
+              content = grid.content
+            },
+            new Tab {
+              text = "P/L"
+              closable = false
+              content = pnl.pnlTable
+            }
+          )
+        }
         bottom = footer.content
       }
     }

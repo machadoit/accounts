@@ -34,58 +34,60 @@ class PnlView(vm: PnlViewModel) extends View {
     }
   }
 
-  val pnlWindow = new Stage {
-    scene = new Scene(width = WindowWidth, height = WindowHeight) {
-      root = new TableView[PnlSummaryViewModel](vm.all) {
-        columnResizePolicy = TableView.ConstrainedResizePolicy
+  val pnlTable = new TableView[PnlSummaryViewModel](vm.all) {
+    columnResizePolicy = TableView.ConstrainedResizePolicy
 
-        columns += new TableColumn[PnlSummaryViewModel, PnlSummaryName] {
-          cellValueFactory = {
-            _.value.name
+    columns += new TableColumn[PnlSummaryViewModel, PnlSummaryName] {
+      cellValueFactory = {
+        _.value.name
+      }
+      cellFactory = CellFactory[PnlSummaryName](_.toString)
+      sortable = false
+      rowFactory = { _ =>
+        new TableRow[PnlSummaryViewModel] {
+          item.onChange { (_, _, newValue) =>
+            if (newValue != null && newValue.isTotal) style = "-fx-font-weight: bold"
+            else style = "-fx-font-weight: normal"
           }
-          cellFactory = CellFactory[PnlSummaryName](_.toString)
-          sortable = false
-          rowFactory = { _ =>
-            new TableRow[PnlSummaryViewModel] {
-              item.onChange { (_, _, newValue) =>
-                if (newValue != null && newValue.isTotal) style = "-fx-font-weight: bold"
-                else style = "-fx-font-weight: normal"
-              }
-            }
-          }
-          maxWidth = 100 * ColumnScaleFactor
-        }
-
-        vm.categories.foreach { tc =>
-          columns += new TableColumn[PnlSummaryViewModel, BigDecimal] {
-            text = tc.shortString
-            cellValueFactory = {
-              _.value.profit(tc)
-            }
-            sortable = false
-            cellFactory = CellFactory[BigDecimal](PnlViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
-            maxWidth = 100 * ColumnScaleFactor
-          }
-        }
-
-        columns += new TableColumn[PnlSummaryViewModel, BigDecimal] {
-          text = "Total"
-          cellValueFactory = {
-            _.value.totalProfit
-          }
-          sortable = false
-          cellFactory = _ => {
-            new TableCell[PnlSummaryViewModel, BigDecimal] {
-              item.onChange { (_, _, newValue) =>
-                text = if (newValue != null) PnlViewModel.formatDecimal(newValue) else ""
-                style = "-fx-font-weight: bold"
-                alignment = Pos.CenterRight
-              }
-            }
-          }
-          maxWidth = 100 * ColumnScaleFactor
         }
       }
+      maxWidth = 100 * ColumnScaleFactor
+    }
+
+    vm.categories.foreach { tc =>
+      columns += new TableColumn[PnlSummaryViewModel, BigDecimal] {
+        text = tc.shortString
+        cellValueFactory = {
+          _.value.profit(tc)
+        }
+        sortable = false
+        cellFactory = CellFactory[BigDecimal](PnlViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
+        maxWidth = 100 * ColumnScaleFactor
+      }
+    }
+
+    columns += new TableColumn[PnlSummaryViewModel, BigDecimal] {
+      text = "Total"
+      cellValueFactory = {
+        _.value.totalProfit
+      }
+      sortable = false
+      cellFactory = _ => {
+        new TableCell[PnlSummaryViewModel, BigDecimal] {
+          item.onChange { (_, _, newValue) =>
+            text = if (newValue != null) PnlViewModel.formatDecimal(newValue) else ""
+            style = "-fx-font-weight: bold"
+            alignment = Pos.CenterRight
+          }
+        }
+      }
+      maxWidth = 100 * ColumnScaleFactor
+    }
+  }
+
+  val pnlWindow = new Stage {
+    scene = new Scene(width = WindowWidth, height = WindowHeight) {
+      root = pnlTable
     }
   }
 }
