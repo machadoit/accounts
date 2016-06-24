@@ -51,7 +51,7 @@ class PnlView(vm: PnlViewModel) extends View {
           }
         }
       }
-      maxWidth = 100 * ColumnScaleFactor
+      maxWidth = 120 * ColumnScaleFactor
     }
 
     vm.categories.foreach { tc =>

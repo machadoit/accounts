@@ -132,8 +132,6 @@ class HeaderView(vm: FiltersViewModel, pnl: PnlView) extends View {
       style = "-fx-font-size: 16pt"
     }, columnIndex = 3, rowIndex = 0, colspan = 2, rowspan = 1)
 
-    add(pnl.content, columnIndex = 3, rowIndex = 1)
-
     add(new Label {
       text = "Transaction type:"
       padding = Insets(top = 0, bottom = 0, left = 0, right = 5)
