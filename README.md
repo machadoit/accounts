@@ -1,5 +1,7 @@
 # Accounts
 
+[![Build Status](https://travis-ci.org/bretts-org/accounts.svg?branch=dev)](https://travis-ci.org/bretts-org/accounts)
+
 ## Setup
 * Download and install:
 
