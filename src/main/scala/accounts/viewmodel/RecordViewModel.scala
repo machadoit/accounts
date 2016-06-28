@@ -35,8 +35,8 @@ object RecordViewModel {
   })
 
   val dateConverter: StringConverter[LocalDate] = StringConverter[LocalDate](
-    s => if (s != null && !s.isEmpty) RecordViewModel.toDate(s) else null,
-    d => if (d != null) RecordViewModel.formatDate(d) else ""
+    s => Option(s).filter(!_.isEmpty).map(RecordViewModel.toDate).orNull,
+    d => Option(d).map(RecordViewModel.formatDate).getOrElse("")
   )
 
   val optionIntConverter = StringConverter[Option[Int]](

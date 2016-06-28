@@ -46,7 +46,7 @@ class PnlView(vm: PnlViewModel) extends View {
       rowFactory = { _ =>
         new TableRow[PnlSummaryViewModel] {
           item.onChange { (_, _, newValue) =>
-            if (newValue != null && newValue.isTotal) style = "-fx-font-weight: bold"
+            if (Option(newValue).exists(_.isTotal)) style = "-fx-font-weight: bold"
             else style = "-fx-font-weight: normal"
           }
         }
@@ -75,7 +75,7 @@ class PnlView(vm: PnlViewModel) extends View {
       cellFactory = _ => {
         new TableCell[PnlSummaryViewModel, BigDecimal] {
           item.onChange { (_, _, newValue) =>
-            text = if (newValue != null) PnlViewModel.formatDecimal(newValue) else ""
+            text = Option(newValue).map(PnlViewModel.formatDecimal).getOrElse("")
             style = "-fx-font-weight: bold"
             alignment = Pos.CenterRight
           }

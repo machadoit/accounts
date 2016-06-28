@@ -9,7 +9,7 @@ trait View {
   implicit protected def toFunction[A, B](cf: CellFactory[B]): TableColumn[A, B] => TableCell[A, B] = _ => {
     new TableCell[A, B] {
       item.onChange { (_, _, newValue) =>
-        text = if (newValue != null) cf.text(newValue) else ""
+        text = Option(newValue).map(cf.text).getOrElse("")
         cf.tooltip.foreach { ttFunc =>
           val newTooltip = for {
             v <- Option(newValue)
