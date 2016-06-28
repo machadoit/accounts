@@ -84,6 +84,14 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
             case None => ""
             case Some(tt) => tt.displayString
           })
+          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+          focused.onChange { (_, _, focusGained) =>
+            if (focusGained) {
+              Platform.runLater {
+                editor().selectAll()
+              }
+            }
+          }
           tooltip <== vm.transactionTypeTooltip
           value <==> vm.transactionType
         }, columnIndex = 1, rowIndex = 3)
@@ -99,10 +107,18 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               case s => IncomeType.values.filter(_.toString.toLowerCase.contains(s.toLowerCase)).head
             }
           },
-            {
-              case None => ""
-              case Some(it) => it.displayString
-            })
+          {
+            case None => ""
+            case Some(it) => it.displayString
+          })
+          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+          focused.onChange { (_, _, focusGained) =>
+            if (focusGained) {
+              Platform.runLater {
+                editor().selectAll()
+              }
+            }
+          }
           value <==> vm.incomeType
         }, columnIndex = 1, rowIndex = 4)
 
@@ -135,10 +151,18 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               case s => AccountType.values.filter(_.toString.toLowerCase.contains(s.toLowerCase)).head
             }
           },
-            {
-              case None => ""
-              case Some(at) => at.toString
-            })
+          {
+            case None => ""
+            case Some(at) => at.toString
+          })
+          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+          focused.onChange { (_, _, focusGained) =>
+            if (focusGained) {
+              Platform.runLater {
+                editor().selectAll()
+              }
+            }
+          }
           value <==> vm.accountType
         }, columnIndex = 1, rowIndex = 7)
 
