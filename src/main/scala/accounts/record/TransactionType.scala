@@ -117,7 +117,10 @@ object TransactionType extends Enum[TransactionType] {
     else Unknown(value % 100, transactionCategory(value / 100))
   })
 
-  def toInt(tt: TransactionType): Int = tt.value + tt.category.value * 100
+  def toInt(tt: TransactionType): Int = tt match {
+    case Generic(category) => category.value
+    case _ => tt.value + tt.category.value * 100
+  }
 
   private def transactionCategory(value: Int): TransactionCategory =
     TransactionCategory.valuesToEntriesMap.getOrElse(value, TransactionCategory.Miscellaneous)
