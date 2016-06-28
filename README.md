@@ -2,6 +2,7 @@
 
 [![Travis](https://img.shields.io/travis/bretts-org/accounts.svg?maxAge=2592000&label=linux)](https://travis-ci.org/bretts-org/accounts)
 [![AppVeyor](https://img.shields.io/appveyor/ci/aebrett/accounts.svg?maxAge=2592000&label=windows)](https://ci.appveyor.com/project/aebrett/accounts)
+[![Codecov](https://img.shields.io/codecov/c/github/bretts-org/accounts.svg?maxAge=2592000)](https://codecov.io/gh/bretts-org/accounts)
 
 ## Setup
 * Download and install:
