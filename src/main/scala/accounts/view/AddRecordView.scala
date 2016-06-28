@@ -26,7 +26,21 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
     onAction = handle {
       vm.reset()
       pnlWindow.show()
+      datePicker.requestFocus()
     }
+  }
+
+  private val datePicker = new DatePicker {
+    converter = RecordViewModel.dateConverter
+    // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+    focused.onChange { (_, _, focusGained) =>
+      if (focusGained) {
+        Platform.runLater {
+          editor().selectAll()
+        }
+      }
+    }
+    value <==> vm.date
   }
 
   val pnlWindow: Stage = new Stage {
@@ -44,18 +58,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
         add(new Label {
           text = "Date:"
         }, columnIndex = 0, rowIndex = 1)
-        add(new DatePicker {
-          converter = RecordViewModel.dateConverter
-          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-          focused.onChange { (_, _, focusGained) =>
-            if (focusGained) {
-              Platform.runLater {
-                editor().selectAll()
-              }
-            }
-          }
-          value <==> vm.date
-        }, columnIndex = 1, rowIndex = 1)
+        add(datePicker, columnIndex = 1, rowIndex = 1)
 
         add(new Label {
           text = "Reference:"
@@ -159,6 +162,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               focusTraversable = false
               onAction = handle {
                 vm.saveAndReset()
+                datePicker.requestFocus()
               }
             },
             new Button {
