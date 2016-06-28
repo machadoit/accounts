@@ -15,7 +15,7 @@ install:
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: java -version
 build_script:
-  - sbt clean compile
+  - sbt clean windows:packageBin
 test_script:
   - sbt test
 cache:
