@@ -18,6 +18,10 @@ build_script:
   - sbt clean windows:packageBin
 test_script:
   - sbt test
+artifacts:
+  - path: target/*
+    name: Generated Artifacts
 cache:
   - C:\sbt\
   - C:\Users\appveyor\.ivy2
+
