@@ -1,6 +1,7 @@
 # Accounts
 
-[![Build Status](https://travis-ci.org/bretts-org/accounts.svg?branch=dev)](https://travis-ci.org/bretts-org/accounts)
+Linux: [![Build Status](https://travis-ci.org/bretts-org/accounts.svg?branch=dev)](https://travis-ci.org/bretts-org/accounts)
+Windows: [![Build status](https://ci.appveyor.com/api/projects/status/f2djxao0f9asebb1?svg=true)](https://ci.appveyor.com/project/aebrett/accounts)
 
 ## Setup
 * Download and install:
