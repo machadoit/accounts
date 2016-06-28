@@ -10,3 +10,9 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
+
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
