@@ -32,19 +32,43 @@ class AddRecordViewModel(model: AddRecordModel) extends ViewModel {
     try {
       vmState.updating = true
       model.save()
-      model.reset()
-      date() = model.date
-      description() = model.description
-      debit() = model.debit
-      credit() = model.credit
-      transactionType() = model.transactionType
-      incomeType() = model.incomeType
-      reference() = model.reference
-      accountType() = model.accountType
       vmState.refresh()
     } finally {
       vmState.updating = false
     }
+  }
+
+  def reset(): Unit = {
+    try {
+      vmState.updating = true
+      doReset()
+      vmState.refresh()
+    } finally {
+      vmState.updating = false
+    }
+  }
+
+  def saveAndReset(): Unit = {
+    try {
+      vmState.updating = true
+      model.save()
+      doReset()
+      vmState.refresh()
+    } finally {
+      vmState.updating = false
+    }
+  }
+
+  private def doReset(): Unit = {
+    model.reset()
+    date() = model.date
+    description() = model.description
+    debit() = model.debit
+    credit() = model.credit
+    transactionType() = model.transactionType
+    incomeType() = model.incomeType
+    reference() = model.reference
+    accountType() = model.accountType
   }
 
 }

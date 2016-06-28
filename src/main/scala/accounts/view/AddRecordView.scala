@@ -24,7 +24,8 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
   val button = new Button {
     text = "Add Transaction"
     onAction = handle {
-      pnlWindow.showAndWait()
+      vm.reset()
+      pnlWindow.show()
     }
   }
 
@@ -157,7 +158,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               disable <== vm.incomplete
               focusTraversable = false
               onAction = handle {
-                vm.save()
+                vm.saveAndReset()
               }
             },
             new Button {
