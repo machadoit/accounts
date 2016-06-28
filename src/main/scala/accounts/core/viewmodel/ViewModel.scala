@@ -1,7 +1,6 @@
 package accounts.core.viewmodel
 
 import com.typesafe.scalalogging.StrictLogging
-import accounts.core.viewmodel.ViewModel.VmState
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -17,7 +16,7 @@ object ViewModel extends StrictLogging {
     def refresh(): Unit
   }
 
-  case class PropertyCalculation[A](property: Property[A, _], calculation: () => A)
+  case class PropertyCalculation[A, B](property: Property[A, B], calculation: () => A)
   extends Calculation {
     def refresh(): Unit = {
       property() = calculation()
@@ -36,7 +35,7 @@ object ViewModel extends StrictLogging {
       val p = ObjectProperty(value)
       p.onChange {
         if (!vmState.updating) {
-          logger.info(s"Property.onUiChange: $p")
+          logger.debug(s"Property.onUiChange: $p")
           try {
             vmState.updating = true
             vmState.refresh()
@@ -44,7 +43,7 @@ object ViewModel extends StrictLogging {
             vmState.updating = false
           }
         } else {
-          logger.info(s"Skipping Property.onUiChange: $p")
+          logger.trace(s"Skipping Property.onUiChange: $p")
         }
       }
       p
@@ -65,8 +64,8 @@ object ViewModel extends StrictLogging {
       p
     }
 
-    private def handleChange[A](p: Property[A, _], from: A => Unit)(implicit vmState: VmState): Unit = {
-      logger.info(s"Binding.onChange: $p (updating: ${vmState.updating})")
+    private def handleChange[A, B](p: Property[A, B], from: A => Unit)(implicit vmState: VmState): Unit = {
+      logger.trace(s"Binding.onChange: $p (updating: ${vmState.updating})")
       val updating = vmState.updating
       try {
         vmState.updating = true
@@ -104,8 +103,11 @@ object ViewModel extends StrictLogging {
     val calculations = mutable.Buffer[Calculation]()
 
     def refresh(): Unit = {
-      logger.info(s"Refreshing: $calculations")
-      calculations.foreach(_.refresh())
+      logger.debug("Refreshing all calculations")
+      calculations.foreach { c =>
+        logger.trace(s"Refreshing calculation: $c")
+        c.refresh()
+      }
     }
 
   }
@@ -113,7 +115,7 @@ object ViewModel extends StrictLogging {
   class RichProperty[A](p: ObjectProperty[A]) {
     def onUiChange(f: A => Unit)(implicit vmState: VmState): Unit = p.onChange { (_, _, value) =>
       if (!vmState.updating) {
-        logger.info(s"RichProperty.onUiChange: $p")
+        logger.trace(s"RichProperty.onUiChange: $p")
         try {
           vmState.updating = true
           f(value)

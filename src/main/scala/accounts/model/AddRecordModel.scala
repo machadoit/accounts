@@ -59,9 +59,6 @@ class AddRecordModel(grid: GridModel, filters: FiltersModel) {
     accountType = defaultAccountType
   }
 
-  def save(): Unit = transaction.foreach { t =>
-    println(s"Saving: $t")
-    grid.save(t)
-  }
+  def save(): Unit = transaction.foreach(grid.save)
 
 }
