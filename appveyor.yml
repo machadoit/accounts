@@ -13,11 +13,11 @@ install:
   - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
+  - cmd: java -version
 build_script:
   - sbt clean compile
 test_script:
   - sbt test
 cache:
   - C:\sbt\
-  - C:\Users\appveyor\.m2
   - C:\Users\appveyor\.ivy2
