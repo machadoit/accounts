@@ -11,6 +11,11 @@ addons:
     packages:
       - oracle-java8-installer
 
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt
+
 script:
   - sbt ++$TRAVIS_SCALA_VERSION clean coverage test coverageReport
 
