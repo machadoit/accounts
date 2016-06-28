@@ -110,7 +110,7 @@ object TransactionType extends Enum[TransactionType] {
 
   val values = TransactionCategory.values.map(c => Generic(c)) ++ findValues
 
-  private val transactionValueMap = TransactionType.values.map(tt => toInt(tt) -> tt).toMap
+  private val transactionValueMap = values.map(tt => toInt(tt) -> tt).toMap
 
   def fromInt(value: Int): TransactionType = transactionValueMap.getOrElse(value, {
     if (value < 100) Generic(transactionCategory(value))
