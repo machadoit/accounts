@@ -1,9 +1,6 @@
 package accounts.view
 
-import java.time.LocalDate
-
-import accounts.core.view.{CellFactory, View}
-import accounts.record.TransactionCategory
+import accounts.core.view.{CellFactory, Style, View}
 import accounts.viewmodel._
 
 import scalafx.Includes._
@@ -14,14 +11,14 @@ import scalafx.scene.control.TableColumn._
 import scalafx.scene.layout.Region
 import scalafx.stage.Stage
 
+import PnlView._
+
 object PnlView {
   val WindowWidth = 1200
   val WindowHeight = Region.USE_COMPUTED_SIZE
 
   val ColumnScaleFactor = 10
 }
-
-import PnlView._
 
 class PnlView(vm: PnlViewModel) extends View {
 
@@ -46,8 +43,8 @@ class PnlView(vm: PnlViewModel) extends View {
       rowFactory = { _ =>
         new TableRow[PnlSummaryViewModel] {
           item.onChange { (_, _, newValue) =>
-            if (Option(newValue).exists(_.isTotal)) style = "-fx-font-weight: bold"
-            else style = "-fx-font-weight: normal"
+            if (Option(newValue).exists(_.isTotal)) style = Style.Bold
+            else style = Style.Normal
           }
         }
       }
@@ -76,7 +73,7 @@ class PnlView(vm: PnlViewModel) extends View {
         new TableCell[PnlSummaryViewModel, BigDecimal] {
           item.onChange { (_, _, newValue) =>
             text = Option(newValue).map(PnlViewModel.formatDecimal).getOrElse("")
-            style = "-fx-font-weight: bold"
+            style = Style.Bold
             alignment = Pos.CenterRight
           }
         }

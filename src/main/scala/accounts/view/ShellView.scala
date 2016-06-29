@@ -9,12 +9,12 @@ import scalafx.scene.Scene
 import scalafx.scene.control.{Tab, TabPane}
 import scalafx.scene.layout._
 
+import ShellView._
+
 object ShellView {
   val WindowWidth = Region.USE_COMPUTED_SIZE
   val WindowHeight = 800
 }
-
-import ShellView._
 
 class ShellView(vm: ShellViewModel) extends View {
 

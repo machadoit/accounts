@@ -16,12 +16,12 @@ import scalafx.scene.control.TableColumn._
 import scalafx.scene.layout._
 import scalafx.util.StringConverter
 
+import GridView._
+
 object GridView {
   // Ensure the sum of the max width of the columns is larger than the maximum reasonable window size
   val ColumnScaleFactor = 10
 }
-
-import GridView._
 
 class GridView(vm: GridViewModel) extends View {
 

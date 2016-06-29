@@ -13,11 +13,11 @@ import scalafx.scene.layout.{GridPane, HBox}
 import scalafx.stage.Stage
 import scalafx.util.StringConverter
 
+import AddRecordView._
+
 object AddRecordView {
   val PositiveIntRegex = "([0-9]+)".r
 }
-
-import AddRecordView._
 
 class AddRecordView(vm: AddRecordViewModel) extends View {
 
@@ -77,7 +77,10 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           converter = StringConverter[Option[TransactionType]]({
             Option(_).filter(!_.isEmpty).map {
               case PositiveIntRegex(s) => TransactionType.fromInt(s.toInt)
-              case s => TransactionType.values.filter(_.displayString.toLowerCase.contains(s.toLowerCase)).head
+              case s =>
+                TransactionType.values
+                  .filter(_.displayString.toLowerCase.contains(s.toLowerCase))
+                  .headOption.getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
             }
           },
           {
@@ -104,7 +107,10 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           converter = StringConverter[Option[IncomeType]]({
             Option(_).filter(!_.isEmpty).map {
               case PositiveIntRegex(s) => IncomeType.withValue(s.toInt)
-              case s => IncomeType.values.filter(_.toString.toLowerCase.contains(s.toLowerCase)).head
+              case s =>
+                IncomeType.values
+                  .filter(_.toString.toLowerCase.contains(s.toLowerCase))
+                  .headOption.getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
             }
           },
           {
@@ -148,7 +154,10 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           converter = StringConverter[Option[AccountType]]({
             Option(_).filter(!_.isEmpty).map {
               case PositiveIntRegex(s) => AccountType.withValue(s.toInt)
-              case s => AccountType.values.filter(_.toString.toLowerCase.contains(s.toLowerCase)).head
+              case s =>
+                AccountType.values
+                  .filter(_.toString.toLowerCase.contains(s.toLowerCase))
+                  .headOption.getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
             }
           },
           {

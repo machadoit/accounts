@@ -3,6 +3,7 @@ package accounts.model
 import java.time.{LocalDate, Month}
 
 import accounts.record.{Record, Transaction, TransactionCategory}
+import accounts.core.util._
 
 sealed trait PnlSummary {
   def breakdowns: Map[TransactionCategory, BigDecimal]
@@ -23,7 +24,12 @@ case class PnlPeriodSummary(
       else s"${startDate.getMonth.toString.toLowerCase.capitalize} ${startDate.getDayOfMonth}-${endDayOfMonth} ${startDate.getYear}"
     }
 
-    s"$periodStr [${breakdowns.toSeq.sortBy(_._1.value).map { case (cat, pnl) => f"${cat.displayString}: $pnl%.0f"}.mkString(", ")}]"
+    def breakdownStr(breakdown: (TransactionCategory, BigDecimal)) = {
+      val (tc, pnl) = breakdown
+      f"${tc.displayString}: $pnl%.0f"
+    }
+
+    s"$periodStr [${breakdowns.toSeq.sortBy { case (tc, _) => tc.value }.map(breakdownStr).mkString(", ")}]"
   }
 }
 
@@ -56,6 +62,6 @@ class PnlModel(grid: GridModel, filtersModel: FiltersModel) {
     }.toSeq.sortWith((a, b) => a.startDate.isBefore(b.startDate))
   }
 
-  def total: PnlTotal = PnlTotal(summaries.flatMap(_.breakdowns).groupBy(_._1).mapValues(_.map(_._2).sum))
+  def total: PnlTotal = PnlTotal(summaries.flatMap(_.breakdowns).groupValues(_.sum))
 
 }
