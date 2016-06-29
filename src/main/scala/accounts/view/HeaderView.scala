@@ -1,10 +1,10 @@
 package accounts.view
 
-import java.time.{LocalDate, Month}
+import java.time.Month
 
 import accounts.core.view.View
 import accounts.record.{AccountType, TransactionCategory, TransactionType}
-import accounts.viewmodel.{FiltersViewModel, PnlViewModel, RecordViewModel}
+import accounts.viewmodel.{FiltersViewModel, RecordViewModel}
 
 import scalafx.Includes._
 import scalafx.application.Platform

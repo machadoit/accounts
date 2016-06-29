@@ -10,8 +10,6 @@ import accounts.record.TransactionCategory.Food
 import accounts.record.TransactionType.{Generic, IceCream, Phone, Unknown}
 import org.scalatest.WordSpec
 
-import scala.io.Source
-
 class FileRecordRepositoryTest extends WordSpec {
 
   private def date(s: String) = LocalDate.parse(s)

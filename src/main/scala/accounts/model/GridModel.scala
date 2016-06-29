@@ -1,7 +1,5 @@
 package accounts.model
 
-import java.time.{LocalDate, Month}
-
 import accounts.record._
 import accounts.record.repository.RecordRepository
 

@@ -1,20 +1,14 @@
 package accounts.view
 
-import java.time.{LocalDate, Month}
+import java.time.LocalDate
 
 import accounts.core.view.{CellFactory, View}
-import accounts.record.{AccountType, IncomeType, TransactionCategory, TransactionType}
+import accounts.record.{AccountType, IncomeType, TransactionType}
 import accounts.viewmodel.{GridViewModel, RecordViewModel}
 
-import scalafx.Includes._
-import scalafx.application.JFXApp.PrimaryStage
-import scalafx.application.Platform
-import scalafx.geometry.{Insets, Orientation, Pos}
-import scalafx.scene.Scene
+import scalafx.geometry.Pos
 import scalafx.scene.control._
 import scalafx.scene.control.TableColumn._
-import scalafx.scene.layout._
-import scalafx.util.StringConverter
 
 import GridView._
 

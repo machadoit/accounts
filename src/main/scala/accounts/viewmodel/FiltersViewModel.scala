@@ -7,7 +7,6 @@ import accounts.core.viewmodel.ViewModel._
 import accounts.model.FiltersModel
 import accounts.record.{AccountType, TransactionCategory, TransactionType}
 
-import scalafx.beans.property.BooleanProperty
 import scalafx.collections.ObservableBuffer
 
 class FiltersViewModel(filters: FiltersModel) extends ViewModel {

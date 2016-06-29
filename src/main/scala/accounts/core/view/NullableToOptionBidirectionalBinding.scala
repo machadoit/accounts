@@ -4,8 +4,6 @@ import scala.ref.WeakReference
 import javafx.beans.property.Property
 import javafx.beans.value.{ChangeListener, ObservableValue}
 
-import com.sun.javafx.binding.BidirectionalBinding
-
 import scala.util.control.NonFatal
 
 object NullableToOptionBidirectionalBinding {
