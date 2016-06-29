@@ -2,7 +2,7 @@ package accounts.core.view
 
 import scalafx.geometry.Pos
 
-case class CellFactory[A] private (
+case class CellFactory[A](
   text: A => String,
   tooltip: Option[A => Option[String]] = None,
   alignment: Option[Pos] = None
