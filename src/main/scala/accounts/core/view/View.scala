@@ -22,6 +22,9 @@ trait View {
     }
   }
 
+  implicit protected def toFunction[A, B](f: => TableCell[A, B]): TableColumn[A, B] => TableCell[A, B] =
+    _ => f
+
   implicit class RichBinding[A](p1: Property[_, A])(implicit ev: Null <:< A) {
     def <==>(p2: Property[_, Option[A]]): Unit = {
       NullableToOptionBidirectionalBinding.bind(p1, p2)

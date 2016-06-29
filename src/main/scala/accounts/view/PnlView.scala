@@ -69,13 +69,11 @@ class PnlView(vm: PnlViewModel) extends View {
         _.value.totalProfit
       }
       sortable = false
-      cellFactory = _ => {
-        new TableCell[PnlSummaryViewModel, BigDecimal] {
-          item.onChange { (_, _, newValue) =>
-            text = Option(newValue).map(PnlViewModel.formatDecimal).getOrElse("")
-            style = Style.Bold
-            alignment = Pos.CenterRight
-          }
+      cellFactory = new TableCell[PnlSummaryViewModel, BigDecimal] {
+        item.onChange { (_, _, newValue) =>
+          text = Option(newValue).map(PnlViewModel.formatDecimal).getOrElse("")
+          style = Style.Bold
+          alignment = Pos.CenterRight
         }
       }
       maxWidth = 100 * ColumnScaleFactor
