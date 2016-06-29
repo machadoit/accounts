@@ -3,17 +3,18 @@ package accounts.model
 import java.time.LocalDate
 
 import accounts.record._
+import org.scalactic.TypeCheckedTripleEquals
 
 object FiltersModel {
   def combine(predicates: Seq[Option[Record => Boolean]]): Option[Record => Boolean] =
     predicates.flatten.reduceOption { (p1, p2) => { r => p1(r) && p2(r) } }
 }
 
-class FiltersModel {
+class FiltersModel extends TypeCheckedTripleEquals {
 
   var accountTypeFilter: Option[AccountType] = Some(AccountType.Hotel)
   private def accountTypePredicate: Option[Record => Boolean] = accountTypeFilter.map { at =>
-    _.accountType == at
+    _.accountType === at
   }
 
   var includeOneOffs: Boolean = true
@@ -31,7 +32,7 @@ class FiltersModel {
   var transactionCategoryFilter: Option[TransactionCategory] = None
   private def transactionCategoryPredicate: Option[Record => Boolean] = transactionCategoryFilter.map { tc =>
     r => r match {
-      case t: Transaction => t.transactionType.category == tc
+      case t: Transaction => t.transactionType.category === tc
       case _ => false
     }
   }
@@ -39,7 +40,7 @@ class FiltersModel {
   var transactionTypeFilter: Option[TransactionType] = None
   private def transactionTypePredicate: Option[Record => Boolean] = transactionTypeFilter.map { tt =>
     r => r match {
-      case t: Transaction => t.transactionType == tt
+      case t: Transaction => t.transactionType === tt
       case _ => false
     }
   }

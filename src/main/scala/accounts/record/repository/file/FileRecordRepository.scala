@@ -8,11 +8,12 @@ import accounts.record._
 import accounts.record.repository.RecordRepository
 import com.github.tototoshi.csv._
 import com.typesafe.scalalogging.StrictLogging
+import org.scalactic.TypeCheckedTripleEquals
 
 import scala.collection.mutable
 import scala.util.control.NonFatal
 
-class FileRecordRepository(file: java.io.File) extends RecordRepository with StrictLogging {
+class FileRecordRepository(file: java.io.File) extends RecordRepository with StrictLogging with TypeCheckedTripleEquals {
   private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy")
   private val localDate = new TemporalQuery[LocalDate] {
     override def queryFrom(temporal: TemporalAccessor): LocalDate = LocalDate.from(temporal)
@@ -47,8 +48,8 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
   }
 
   private def parse(fields: Seq[String]): Record = try {
-    require(fields.size == 9, s"Expected 9 fields, but got $fields")
-    if (fields(2).toInt != 0) {
+    require(fields.size === 9, s"Expected 9 fields, but got $fields")
+    if (fields(2).toInt !== 0) {
       Transaction(
         dateFormatter.parse(fields(0), localDate),
         fields(1),

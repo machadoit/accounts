@@ -32,7 +32,7 @@ class FileRecordRepositoryTest extends WordSpec {
       val records = repo.all
 
       "contain the expected records" in {
-        assert(records == expected)
+        assert(records === expected)
       }
     }
 
@@ -44,7 +44,7 @@ class FileRecordRepositoryTest extends WordSpec {
         repo.all.foreach(storeRepo.save)
 
         val loadRepo = new FileRecordRepository(storeFile)
-        assert(loadRepo.all == expected)
+        assert(loadRepo.all === expected)
       }
 
 

@@ -10,6 +10,7 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3"
 libraryDependencies += "com.beachape" %% "enumeratum" % "1.4.4"
 libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.1"
 libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.92-R10"
+libraryDependencies += "org.scalactic" %% "scalactic" % "2.2.6"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
 

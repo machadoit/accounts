@@ -4,6 +4,7 @@ import java.time.{LocalDate, Month}
 
 import accounts.record.{Record, Transaction, TransactionCategory}
 import accounts.core.util._
+import org.scalactic.TypeCheckedTripleEquals
 
 sealed trait PnlSummary {
   def breakdowns: Map[TransactionCategory, BigDecimal]
@@ -15,8 +16,9 @@ case class PnlPeriodSummary(
   startDate: LocalDate,
   endDayOfMonth: Int,
   breakdowns: Map[TransactionCategory, BigDecimal]
-) extends PnlSummary {
-  def completeMonth: Boolean = startDate.getDayOfMonth == 1 && endDayOfMonth == startDate.lengthOfMonth
+) extends PnlSummary with TypeCheckedTripleEquals {
+
+  def completeMonth: Boolean = startDate.getDayOfMonth === 1 && endDayOfMonth === startDate.lengthOfMonth
 
   override def toString: String = {
     val periodStr = {
