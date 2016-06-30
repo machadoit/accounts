@@ -19,10 +19,8 @@ build_script:
 test_script:
   - sbt test
 artifacts:
-  - path: 'target\scala-*\*.jar'
-    name: Java Package
-  - path: 'target\windows\*.msi'
-    name: Windows Installer
+  - path: '**\*'
+    name: Artifact
 cache:
   - C:\sbt\
   - C:\Users\appveyor\.ivy2
