@@ -1,3 +1,7 @@
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.1")
+
+enablePlugins(JavaAppPackaging, WindowsPlugin)
+
 // general package information
 maintainer := "Andrew Brett <git@bretts.org>"
 packageSummary := "accounts"
