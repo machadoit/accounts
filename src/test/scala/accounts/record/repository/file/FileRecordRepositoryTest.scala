@@ -1,18 +1,17 @@
 package accounts.record.repository.file
 
 import java.io.File
-import java.time.LocalDate
 
 import accounts.record.AccountType.{Hotel, House}
 import accounts.record.IncomeType._
 import accounts.record.{OpeningBalance, Transaction}
 import accounts.record.TransactionCategory.Food
 import accounts.record.TransactionType.{Generic, IceCream, Phone, Unknown}
+import accounts.util.TestUtils._
+import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.WordSpec
 
-class FileRecordRepositoryTest extends WordSpec {
-
-  private def date(s: String) = LocalDate.parse(s)
+class FileRecordRepositoryTest extends WordSpec with TypeCheckedTripleEquals {
 
   private val expected = Seq(
     OpeningBalance(date("2016-02-01"), "opening balance" , debit = 123.45, credit = 0 , 1, Hotel),
