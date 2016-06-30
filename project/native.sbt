@@ -1,5 +1,3 @@
-enablePlugins(JavaAppPackaging, WindowsPlugin)
-
 // general package information
 maintainer := "Andrew Brett <git@bretts.org>"
 packageSummary := "accounts"
