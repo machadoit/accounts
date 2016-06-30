@@ -36,6 +36,10 @@ unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "
 
 enablePlugins(JavaAppPackaging, WindowsPlugin)
 
+// strip off any version suffixes when building the msi package, since WiX requires
+// version to be of the form x.y.z, where x < 256, y < 256 and z < 65536
+version in Windows := version.value.replaceFirst("-.*", "")
+
 // general package information
 maintainer := "Andrew Brett <git@bretts.org>"
 packageSummary := "accounts"
