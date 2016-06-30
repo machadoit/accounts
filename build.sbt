@@ -2,7 +2,7 @@ name := "Accounts"
 
 organization := "org.bretts"
 
-version := "1.0-SNAPSHOT"
+version := "0.99.0"
 
 scalaVersion := "2.11.8"
 
