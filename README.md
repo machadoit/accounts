@@ -33,4 +33,14 @@ Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com/), 
 * [Download](https://github.com/bretts-org/accounts/archive/dev.zip) and unzip the latest source
 * From the root directory of the extracted source, run: `sbt "run --transfile=C:/path/to/TRANS"`
 
+## Contribute
+
+### Prerequisites
+* [Java Development Kit (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (1.8.0_92 or greater)
+* [Scala Build Tool (sbt)](http://www.scala-sbt.org/download.html) (0.13.9 or greater)
+* [Git](https://git-scm.com/downloads) version control software
+
+### Recommended
+* [IntelliJ Community Edition](https://www.jetbrains.com/idea/download/#section=windows) (graphical development environment)
+* [Sourcetree](https://www.sourcetreeapp.com/download) (graphical version control)
 
