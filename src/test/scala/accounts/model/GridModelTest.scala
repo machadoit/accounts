@@ -1,54 +1,63 @@
 package accounts.model
 
-import accounts.record.AccountType.{Hotel, House}
-import accounts.record.IncomeType.{Cash, Cheque, DirectDebit}
-import accounts.record.TransactionCategory.Food
-import accounts.record.TransactionType.{Generic, IceCream, Phone, Unknown}
-import accounts.record.{OpeningBalance, Record, Transaction}
-import accounts.record.repository.RecordRepository
+
+import accounts.record.AccountType.Hotel
+import accounts.record.IncomeType.Card
+import accounts.record.{Record, Transaction}
+import accounts.record.TransactionType._
+import accounts.record.repository.RecordRepositoryStub
 import accounts.util.TestUtils._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 
-object RecordRepositoryStub extends RecordRepository {
-  override def all: Seq[Record] = Seq(
-    OpeningBalance(date("2016-02-01"), "opening balance" , debit = 123.45, credit = 0 , 1, Hotel),
-    Transaction(date("2016-03-23"), "Cheeseburgers", Unknown(18, Food), debit = 252.75, credit = 0, Cash, 2, Hotel),
-    Transaction(date("2016-04-02"), "Vodafone", Phone, debit = 313.10, credit = 0, DirectDebit, 3, Hotel),
-    Transaction(date("2016-04-15"), "Cornettos", IceCream, debit = 0, credit = 54.50, Cash, 4, Hotel),
-    Transaction(date("2016-05-24"), "Sausages", Generic(Food), debit = 26.42, credit = 0, Cheque, 5, House)
-  )
-
-  override def save(r: Record): Unit = {}
-}
+import scala.language.reflectiveCalls
 
 class GridModelTest extends WordSpec with Matchers with TypeCheckedTripleEquals {
 
+  private def fixture = new {
+    val records = new RecordRepositoryStub
+    val filters = new FiltersModel
+    val model = new GridModel(records, filters)
+  }
+
+  private val newTrans = Transaction(
+    date("2016-05-19"), "Heating Oil", HeatingOil,
+    debit = 563.20, credit = 0, Card, 7, Hotel
+  )
+
   "A grid model" should {
     val all = RecordRepositoryStub.all
+    val onlyHotel = all.slice(0, 4) ++ all.slice(5, 7)
 
-    val filters = new FiltersModel
-    println("foo")
-    val model = new GridModel(RecordRepositoryStub, filters)
-
-    "contain only hotel records by default" in {
-      assert(model.records === all.slice(0, 4))
+    "include only hotel records by default" in {
+      val f = fixture
+      assert(f.model.records === onlyHotel)
     }
 
-    "filter on standard transaction types" in {
-      filters.transactionTypeFilter = Some(IceCream)
-      assert(model.records === Seq(all(3)))
+    "optionally return all records" in {
+      val f = fixture
+      f.filters.transactionTypeFilter = Some(IceCream)
+      assert(f.model.all === all)
     }
 
-    "filter on unknown transaction types" in {
-      filters.transactionTypeFilter = Some(Unknown(18, Food))
-      assert(model.records === Seq(all(1)))
+    "not automatically update from the repository" in {
+      val f = fixture
+      f.records.all.remove(3)
+      assert(f.model.records === onlyHotel)
     }
 
-//    "filter on transaction categories" in {
-//      filters.transactionCategoryFilter = Some(Food)
-//      assert(model.records === Seq(all(1), all(4)))
-//    }
+    "save records to the repository" in {
+      val f = fixture
+      f.model.save(newTrans)
+      assert(f.records.saved === Seq[Record](newTrans))
+    }
+
+    "update from the repository on save" in {
+      val f = fixture
+      f.records.all.remove(3)
+      f.model.save(newTrans)
+      assert(f.model.records === onlyHotel.patch(3, Seq(), 1))
+    }
 
   }
 }
