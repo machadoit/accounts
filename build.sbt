@@ -42,7 +42,7 @@ version in Windows := version.value.replaceFirst("-.*", "")
 
 // general package information
 maintainer := "Andrew Brett <git@bretts.org>"
-packageSummary := "accounts"
+packageSummary := "Accounts"
 packageDescription := "Cortijo Rosario Accounts"
 
 // wix build information
