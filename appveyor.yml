@@ -23,6 +23,18 @@ artifacts:
     name: Java Package
   - path: 'target\windows\*.msi'
     name: Windows Installer
+deploy:
+  provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  description: ''
+  auth_token:
+    secure: XSSEVEdWgj60ZMOTimzmd92UJc4aP5B46CuNM+y2llK6onAqOoM0Y5RcIrCD3dZF
+  artifact: 'target\windows\*.msi'
+  draft: true
+  prerelease: true
+  on:
+    branch: master
+    appveyor_repo_tag: true
 cache:
   - C:\sbt\
   - C:\Users\appveyor\.ivy2
