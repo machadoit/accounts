@@ -32,7 +32,7 @@ deploy:
   # Note: regexp is needed here, vs. ant-style path in artifacts section
   artifact: /.*\.msi/
   draft: false
-  prerelease: true
+  prerelease: false
   on:
     appveyor_repo_tag: true
 cache:

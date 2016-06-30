@@ -4,6 +4,7 @@
 [![AppVeyor](https://img.shields.io/appveyor/ci/aebrett/accounts.svg?label=windows)](https://ci.appveyor.com/project/aebrett/accounts)
 [![Codacy grade](https://img.shields.io/codacy/grade/0240d5e9efa44dd9a684a052511ab7e5.svg)](https://www.codacy.com/app/aebrett/accounts)
 [![Codecov](https://img.shields.io/codecov/c/github/bretts-org/accounts.svg)](https://codecov.io/gh/bretts-org/accounts)
+[![GitHub release](https://img.shields.io/github/release/bretts-org/accounts.svg)](https://github.com/bretts-org/accounts/releases/latest)
 
 ## Setup
 * Download and install:
