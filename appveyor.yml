@@ -29,7 +29,7 @@ deploy:
   description: ''
   auth_token:
     secure: XSSEVEdWgj60ZMOTimzmd92UJc4aP5B46CuNM+y2llK6onAqOoM0Y5RcIrCD3dZF
-  artifact: 'target\windows\*.msi'
+  artifact: Windows Installer
   draft: true
   prerelease: true
   on:
