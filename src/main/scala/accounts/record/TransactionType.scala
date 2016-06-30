@@ -4,7 +4,7 @@ import TransactionCategory._
 import accounts.core.viewmodel.ViewModel
 import enumeratum._
 
-sealed abstract class TransactionType(val value: Int, val category: TransactionCategory) extends EnumEntry {
+sealed abstract class TransactionType(val value: Int, val category: TransactionCategory, val oneOff: Boolean = false) extends EnumEntry {
   def displayString = s"${category.displayString}: $displaySuffix"
   protected def displaySuffix = ViewModel.displayString(toString)
 }
@@ -72,19 +72,19 @@ object TransactionType extends Enum[TransactionType] {
   case object BookCost extends TransactionType(2, Cookbook)
   case object Postage extends TransactionType(3, Cookbook)
 
-  case object HouseGuestRoomOneOff extends TransactionType(1, Maintenance)
-  case object HouseKitchenOneOff extends TransactionType(2, Maintenance)
-  case object HouseBathroomOneOff extends TransactionType(3, Maintenance)
-  case object HouseExteriorOneOff extends TransactionType(4, Maintenance)
-  case object HousePoolOneOff extends TransactionType(5, Maintenance)
-  case object GardensOneOff extends TransactionType(6, Maintenance)
-  case object StudiosOneOff extends TransactionType(7, Maintenance)
-  case object CortijoBedroomsOneOff extends TransactionType(8, Maintenance)
-  case object CortijoOfficeOneOff extends TransactionType(9, Maintenance)
-  case object CortijoPoolOneOff extends TransactionType(0, Maintenance)
-  case object CortijoKitchenOneOff extends TransactionType(1, Maintenance)
-  case object CortijoPublicRoomsOneOff extends TransactionType(2, Maintenance)
-  case object CortijoExteriorOneOff extends TransactionType(3, Maintenance)
+  case object HouseGuestRoomOneOff extends TransactionType(1, Maintenance, true)
+  case object HouseKitchenOneOff extends TransactionType(2, Maintenance, true)
+  case object HouseBathroomOneOff extends TransactionType(3, Maintenance, true)
+  case object HouseExteriorOneOff extends TransactionType(4, Maintenance, true)
+  case object HousePoolOneOff extends TransactionType(5, Maintenance, true)
+  case object GardensOneOff extends TransactionType(6, Maintenance, true)
+  case object StudiosOneOff extends TransactionType(7, Maintenance, true)
+  case object CortijoBedroomsOneOff extends TransactionType(8, Maintenance, true)
+  case object CortijoOfficeOneOff extends TransactionType(9, Maintenance, true)
+  case object CortijoPoolOneOff extends TransactionType(0, Maintenance, true)
+  case object CortijoKitchenOneOff extends TransactionType(1, Maintenance, true)
+  case object CortijoPublicRoomsOneOff extends TransactionType(2, Maintenance, true)
+  case object CortijoExteriorOneOff extends TransactionType(3, Maintenance, true)
 
   case object HouseBedrooms extends TransactionType(51, Maintenance)
   case object HouseKitchen extends TransactionType(52, Maintenance)
@@ -110,14 +110,17 @@ object TransactionType extends Enum[TransactionType] {
 
   val values = TransactionCategory.values.map(c => Generic(c)) ++ findValues
 
-  private val transactionValueMap = TransactionType.values.map(tt => toInt(tt) -> tt).toMap
+  private val transactionValueMap = values.map(tt => toInt(tt) -> tt).toMap
 
   def fromInt(value: Int): TransactionType = transactionValueMap.getOrElse(value, {
     if (value < 100) Generic(transactionCategory(value))
     else Unknown(value % 100, transactionCategory(value / 100))
   })
 
-  def toInt(tt: TransactionType): Int = tt.value + tt.category.value * 100
+  def toInt(tt: TransactionType): Int = tt match {
+    case Generic(category) => category.value
+    case _ => tt.value + tt.category.value * 100
+  }
 
   private def transactionCategory(value: Int): TransactionCategory =
     TransactionCategory.valuesToEntriesMap.getOrElse(value, TransactionCategory.Miscellaneous)

@@ -7,6 +7,8 @@ sealed trait Record {
   def description: String
   def debit: BigDecimal
   def credit: BigDecimal
+  def reference: Int
+  def accountType: AccountType
 }
 
 case class Transaction(
@@ -24,5 +26,7 @@ case class OpeningBalance(
   date: LocalDate,
   description: String,
   debit: BigDecimal,
-  credit: BigDecimal
+  credit: BigDecimal,
+  reference: Int,
+  accountType: AccountType
 ) extends Record

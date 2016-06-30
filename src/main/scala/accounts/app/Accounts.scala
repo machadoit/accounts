@@ -2,10 +2,10 @@ package accounts.app
 
 import java.io.File
 
-import accounts.model.GridModel
+import accounts.model.ShellModel
 import accounts.record.repository.file.FileRecordRepository
-import accounts.view.GridView
-import accounts.viewmodel.GridViewModel
+import accounts.view.ShellView
+import accounts.viewmodel.ShellViewModel
 
 import scalafx.application.JFXApp
 
@@ -15,9 +15,9 @@ object Accounts extends JFXApp {
   val file = new File(fileName)
   val records = new FileRecordRepository(file)
 
-  val model = new GridModel(records)
-  val viewModel = new GridViewModel(model)
-  val view = new GridView(viewModel)
+  val model = new ShellModel(records)
+  val viewModel = new ShellViewModel(model)
+  val view = new ShellView(viewModel)
 
   stage = view.stage
 }
