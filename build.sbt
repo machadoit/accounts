@@ -2,7 +2,8 @@ name := "Accounts"
 
 organization := "org.bretts"
 
-version := "0.99.0"
+enablePlugins(GitVersioning)
+git.baseVersion := "0.99"
 
 scalaVersion := "2.11.8"
 
