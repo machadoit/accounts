@@ -53,7 +53,7 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
       Transaction(
         dateFormatter.parse(fields(0), localDate),
         fields(1),
-        TransactionType.fromInt(fields(2).toInt),
+        TransactionType.withValue(fields(2).toInt),
         BigDecimal(fields(3)),
         BigDecimal(fields(4)),
         IncomeType.withValue(fields(5).toInt),
@@ -78,7 +78,7 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
     case t: Transaction => Seq(
       dateFormatter.format(t.date),
       t.description,
-      TransactionType.toInt(t.transactionType),
+      t.transactionType.value,
       format(t.debit),
       format(t.credit),
       t.incomeType.value,

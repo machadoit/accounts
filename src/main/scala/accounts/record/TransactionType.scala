@@ -151,10 +151,6 @@ object TransactionType extends Enum[TransactionType] {
     i, Unknown(i % 100, transactionCategory(i / 100))
   )
 
-  def fromInt(value: Int): TransactionType = withValue(value)
-
-  def toInt(tt: TransactionType): Int = tt.value
-
   private def transactionCategory(value: Int): TransactionCategory =
     TransactionCategory.withValueOpt(value).getOrElse(TransactionCategory.Miscellaneous)
 

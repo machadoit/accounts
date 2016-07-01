@@ -76,7 +76,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           editable = true
           converter = StringConverter[Option[TransactionType]]({
             Option(_).filter(!_.isEmpty).map {
-              case PositiveIntRegex(s) => TransactionType.fromInt(s.toInt)
+              case PositiveIntRegex(s) => TransactionType.withValue(s.toInt)
               case s =>
                 TransactionType.values
                   .filter(_.displayString.toLowerCase.contains(s.toLowerCase))

@@ -9,7 +9,7 @@ import scalafx.scene.control.Tooltip
 
 class AddRecordViewModel(model: AddRecordModel) extends ViewModel {
 
-  val transactionTypes = TransactionType.values.sortBy(TransactionType.toInt).map(Some(_))
+  val transactionTypes = TransactionType.values.sortBy(_.value).map(Some(_))
   val incomeTypes = IncomeType.values.map(Some(_))
   val accountTypes = AccountType.values.map(Some(_))
 
@@ -23,7 +23,7 @@ class AddRecordViewModel(model: AddRecordModel) extends ViewModel {
   val accountType = Binding(model.accountType)(model.accountType = _)
 
   val transactionTypeTooltip = CalculatedProperty {
-    model.transactionType.map(tt => Tooltip(s"Code: ${TransactionType.toInt(tt)}").delegate)
+    model.transactionType.map(tt => Tooltip(s"Code: ${tt.value}").delegate)
   }
 
   val incomplete = CalculatedProperty.boolean(!model.complete)
