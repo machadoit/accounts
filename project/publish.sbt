@@ -6,7 +6,7 @@ publishTo := {
     Some("releases"  at nexus + "service/local/staging/deploy/maven2")
 }
 
-credentials += {
+credentials ++= {
   val travisCredentials = for {
     username <- Option(System.getenv().get("SONATYPE_USERNAME"))
     password <- Option(System.getenv().get("SONATYPE_PASSWORD"))
@@ -18,7 +18,13 @@ credentials += {
       password)
   }
 
-  travisCredentials.getOrElse(Credentials(Path.userHome / ".ivy2" / ".credentials"))
+  val localCredentials = {
+    val path = Path.userHome / ".ivy2" / ".credentials"
+    if (path.exists) Some(Credentials(path))
+    else None
+  }
+
+  (travisCredentials orElse localCredentials).toSeq
 }
 
 publishMavenStyle := true

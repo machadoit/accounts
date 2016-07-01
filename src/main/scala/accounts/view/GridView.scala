@@ -48,7 +48,7 @@ class GridView(vm: GridViewModel) extends View {
       comparator = Ordering.by(_.map(_.displayString))
       cellFactory = CellFactory.optionalWithTooltip[TransactionType](
         _.displayString,
-        tt => s"Code: ${TransactionType.toInt(tt)}"
+        tt => s"Code: ${tt.value}"
       )
       maxWidth = 300 * ColumnScaleFactor
     }

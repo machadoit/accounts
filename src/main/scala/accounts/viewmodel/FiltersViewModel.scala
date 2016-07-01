@@ -29,7 +29,7 @@ class FiltersViewModel(filters: FiltersModel) extends ViewModel {
         transactionCategoryFilter() = Some(TransactionCategory.withValue(i))
         transactionTypeFilter() = None
       case Some(i) =>
-        val tt = TransactionType.fromInt(i)
+        val tt = TransactionType.withValue(i)
         transactionCategoryFilter() = Some(tt.category)
         transactionTypeFilter() = Some(tt)
       case None =>
@@ -50,14 +50,14 @@ class FiltersViewModel(filters: FiltersModel) extends ViewModel {
   }
 
   val transactionTypeFilters = ObservableBuffer(
-    None +: TransactionType.values.sortBy(TransactionType.toInt).map(Some(_))
+    None +: TransactionType.values.sortBy(_.value).map(Some(_))
   )
   val transactionTypeFilter = Binding[Option[TransactionType]](filters.transactionTypeFilter) {
     filters.transactionTypeFilter = _
   }
   transactionTypeFilter.onUiChange { tt =>
     // TODO: Don't reset category when type is set back to None
-    textFilter() = tt.map(TransactionType.toInt(_))
+    textFilter() = tt.map(_.value)
     transactionCategoryFilter() = tt.map(_.category)
   }
 

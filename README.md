@@ -4,15 +4,43 @@
 [![AppVeyor](https://img.shields.io/appveyor/ci/aebrett/accounts.svg?label=windows)](https://ci.appveyor.com/project/aebrett/accounts)
 [![Codacy grade](https://img.shields.io/codacy/grade/0240d5e9efa44dd9a684a052511ab7e5.svg)](https://www.codacy.com/app/aebrett/accounts)
 [![Codecov](https://img.shields.io/codecov/c/github/bretts-org/accounts.svg)](https://codecov.io/gh/bretts-org/accounts)
+[![GitHub release](https://img.shields.io/github/release/bretts-org/accounts.svg)](https://github.com/bretts-org/accounts/releases/latest)
 
-## Setup
-* Download and install:
+Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com/), with the following features:
+* View existing transactions
+* View P/L by category/month
+* View P/L by period, including brought forward and year to date totals
+* Transaction and P/L filtering by account type, date range and transaction type
+* Add new transactions
+* Manage direct debits / standing orders (not yet implemented)
 
-  * Java Development Kit (JDK) 1.8.0_92 or greater: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-  * Scala Build Tool (sbt) 0.13.x: http://www.scala-sbt.org/download.html (you may need to restart after installing)
-  
-* Download/clone the accounts code using the green link above.
+## Install from binary
 
-* In the root directory of the source, run `sbt "run --transfile=C:/path/to/TRANS"`
+### Prerequisites
+* [Java Runtime (JRE)](https://java.com/en/download/) (1.8.0_91 or greater)
 
+### Instructions
+* Download and install the [latest accounts release](https://github.com/bretts-org/accounts/releases/latest)
+* From the installation directory, run: `accounts.bat "--transfile=C:\path\to\TRANS"`
+
+## Build/run from source
+
+### Prerequisites
+* [Java Development Kit (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (1.8.0_92 or greater)
+* [Scala Build Tool (sbt)](http://www.scala-sbt.org/download.html) (0.13.9 or greater)
+
+### Instructions
+* [Download](https://github.com/bretts-org/accounts/archive/dev.zip) and unzip the latest source
+* From the root directory of the extracted source, run: `sbt "run --transfile=C:/path/to/TRANS"`
+
+## Contribute
+
+### Prerequisites
+* [Java Development Kit (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (1.8.0_92 or greater)
+* [Scala Build Tool (sbt)](http://www.scala-sbt.org/download.html) (0.13.9 or greater)
+* [Git](https://git-scm.com/downloads) version control software
+
+### Recommended
+* [IntelliJ Community Edition](https://www.jetbrains.com/idea/download/#section=windows) (graphical development environment)
+* [Sourcetree](https://www.sourcetreeapp.com/download) (graphical version control)
 

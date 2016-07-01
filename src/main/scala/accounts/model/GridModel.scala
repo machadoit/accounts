@@ -5,7 +5,8 @@ import accounts.record.repository.RecordRepository
 
 class GridModel(recordRepository: RecordRepository, filters: FiltersModel) {
 
-  var all = recordRepository.all
+  // defensively copy here
+  var all: Seq[Record] = Seq(recordRepository.all: _*)
 
   private[model] def filterAll(predicates: Seq[Option[Record => Boolean]]) = FiltersModel.combine(predicates) match {
     case Some(p) => all.filter(p)
