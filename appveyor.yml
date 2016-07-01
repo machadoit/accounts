@@ -17,7 +17,7 @@ install:
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: java -version
   - cmd: echo %PYTHON%
-  - cmd: pip install --user codecov
+  - cmd: pip install codecov
 
 build_script:
   - sbt clean windows:packageBin
