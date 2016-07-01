@@ -147,10 +147,9 @@ object TransactionType extends Enum[TransactionType] {
     tt => println(tt); tt.value -> tt
   }.toMap
 
-  def withValue(i: Int): TransactionType = transactionValueMap.getOrElse(i, {
-    if (i < 100) Generic(transactionCategory(i))
-    else Unknown(i % 100, transactionCategory(i / 100))
-  })
+  def withValue(i: Int): TransactionType = transactionValueMap.getOrElse(
+    i, Unknown(i % 100, transactionCategory(i / 100))
+  )
 
   def fromInt(value: Int): TransactionType = withValue(value)
 
