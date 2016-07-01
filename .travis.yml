@@ -21,13 +21,6 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - "[[ $TRAVIS_BRANCH == \"dev\" ]] && { sbt publish; };"
-
-# Encrypted sonatype username & password
-env:
-  global:
-  - secure: HSOixV88bUcHLUl+BRnyVi+wMikY1Cpo42IHJkIfD+Ms91mGexIMAD/1QO6yuaed9uvIHYksYPi8dIkfs89YykeOSjDV/3SthlkgNqxgCoVLk3hu4bk3WRLM9BW2C0bKpJLj3nv+XMelx6fMX8ZvvOCBjAvGZAY/f2vsX+JcGT3GaEpFzEnEKscEabAWOXRKhg5dbWO3Y11soZUK0WxEbAmSsxATJIiHd+AnJmXAKmZ1DfomISEylTXbn2CZ8VOae+rPkGt/K5m5/XJ4ngDJEMvNtXRIkNC9ByX59w4RYr7kKNvqrKVUr7V+LSo26EqMAWr9q7a0sxCS8QnaTC+fAlrVok8AjCbYEYJrjuHwmf0o2PylMMsNrRaknix120qlVl/MwtsOHC5YZZ0uAmbFwpX9VUnH0UWBIA0J2fE9NUnujmmqT4KovSrqj4ipyvuOX6fe7DtQxDz0ZZBKSaJAPoTxVHVyX9ZKaE7eqnpVdIx0yhkTrTkGOQCtjvDAtRajCGAqHr72UwbSPHCDcK9HMjqMIfnDb1WiThBP7xUAbiPpvHBdcA29Pra/hTUZYFITEn2pqBmzugjuBbuVIcsT7NJmTC0beWhu7s/5Zwkrmjl8jWwJsmXkO1fs6Xa/ZEd639w18ci+9giedjkBnPbnrKLOIiX5i661z1KDFrRBrOU=
-  - secure: yfd4bJAaiZLq656+YB2FwQXiey+h5GK+wXkK1GjtC51pCQByvDLpKguF/CCp/cNUlkSKjqkk4WyT5ci3IhWsbofQUxtEk0G+BUPZAkDsxfYVMAFx0/5MArEto1q0mCxca4gEQ61BA/ssBrcWw2sGyZo5LRxZkBK+PEEYJK+BtQssPChhBsOSuvZM2ZrsJuPp9QrCG9aN0dry9ieqoi9WcpmWKfYdHBLkdNjDOV7+cY++RcYRa5dmjrY6smPK7omzS/FYbRobWzT68CEloIBZoJ1MEKBkJKlI7AXL0zhhTHFpGWgZBsCGeSiAi8sOjnpkt/eQKiw5X7HGSF5ZveojCTfKlni8xxdE6xg6lD4lrYYFIVT3DHVn6+rkMjxtMsdr6PfYmoSvAdSC4gfRNkHneyZSHjOxadGy8r7XFM23Hqpy0Nr4ku5TD4XxMSe92itKI5spc3llMqVvBrJ6uDGdkQhb2u5t/KmH0w5+RddUcUUyz0prXNqxKRAGNQOVne+uslV6sdu/hi7t6Z/Kmaw4d6mJ+y5jLo0d9yNs8lUUmOJCM2YxOBB4IYfuW4D1L3nbbCrIzymRLUeA+778+KvRNfsYr0sxkQ/59vfNW0RyRwYTC0jmjeNJG8JZa+0kZPx/iyLgSKftmXcYhv3HKamCw9O6naYyzAdNKWFH859nQgo=
 
 # Disable notifications (rely on Appveyor for build emails)
 notifications:
