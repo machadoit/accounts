@@ -11,7 +11,7 @@ install:
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sbt-bin.zip", "C:\sbt")
       }
   - cmd: Set PYTHON=C:\Python35
-  - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%\Scripts;%PATH%
+  - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%;%PYTHON%\Scripts;%PATH%
   - cmd: echo %PATH%
   - cmd: SET SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
@@ -24,7 +24,7 @@ build_script:
 test_script:
   - sbt test
 after_test: 
-  - codecov
+  - "codecov"
 artifacts:
   - path: 'target\scala-*\*.jar'
     name: Java Package
