@@ -28,7 +28,7 @@ class GridView(vm: GridViewModel) extends View {
         _.value.date
       }
       comparator = Ordering.fromLessThan(_.isBefore(_))
-      cellFactory = CellFactory[LocalDate](RecordViewModel.formatDate(_))
+      cellFactory = CellFactory[LocalDate](View.formatDate(_))
       maxWidth = 120 * ColumnScaleFactor
     }
     columns += new TableColumn[RecordViewModel, Int] {
@@ -66,7 +66,7 @@ class GridView(vm: GridViewModel) extends View {
         _.value.credit
       }
       comparator = Ordering[BigDecimal]
-      cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
+      cellFactory = CellFactory[BigDecimal](View.formatDecimal(_), alignment = Some(Pos.CenterRight))
       maxWidth = 100 * ColumnScaleFactor
     }
     columns += new TableColumn[RecordViewModel, BigDecimal] {
@@ -75,7 +75,7 @@ class GridView(vm: GridViewModel) extends View {
         _.value.debit
       }
       comparator = Ordering[BigDecimal]
-      cellFactory = CellFactory[BigDecimal](RecordViewModel.formatDecimal(_), alignment = Some(Pos.CenterRight))
+      cellFactory = CellFactory[BigDecimal](View.formatDecimal(_), alignment = Some(Pos.CenterRight))
       maxWidth = 100 * ColumnScaleFactor
     }
     columns += new TableColumn[RecordViewModel, AccountType] {

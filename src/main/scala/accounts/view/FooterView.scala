@@ -1,7 +1,7 @@
 package accounts.view
 
 import accounts.core.view.View
-import accounts.viewmodel.{RecordViewModel, TotalsViewModel}
+import accounts.viewmodel.TotalsViewModel
 
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Label, TextField, TextFormatter}
@@ -47,7 +47,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            RecordViewModel.formatDecimal(_)
+            View.formatDecimal(_)
           )) {
             value <== vm.periodCredit
           }
@@ -66,7 +66,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            d => RecordViewModel.formatDecimal(d * -1)
+            d => View.formatDecimal(d * -1)
           )) {
             value <== vm.periodDebit
           }
@@ -90,7 +90,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            RecordViewModel.formatDecimal(_)
+            View.formatDecimal(_)
           )) {
             value <== vm.broughtForwardCredit
           }
@@ -109,7 +109,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            d => RecordViewModel.formatDecimal(d * -1)
+            d => View.formatDecimal(d * -1)
           )) {
             value <== vm.broughtForwardDebit
           }
@@ -133,7 +133,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            RecordViewModel.formatDecimal(_)
+            View.formatDecimal(_)
           )) {
             value <== vm.toDateCredit
           }
@@ -152,7 +152,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
-            d => RecordViewModel.formatDecimal(d * -1)
+            d => View.formatDecimal(d * -1)
           )) {
             value <== vm.toDateDebit
           }

@@ -3,19 +3,24 @@ package accounts.app
 import java.io.File
 
 import accounts.model.ShellModel
-import accounts.record.repository.file.FileRecordRepository
+import accounts.record.repository.file.{FileRecordRepository, FileStandingOrderRepository}
 import accounts.view.ShellView
 import accounts.viewmodel.ShellViewModel
 
 import scalafx.application.JFXApp
 
 object Accounts extends JFXApp {
-  val fileName = parameters.named.getOrElse("transfile",
+  val transFileName = parameters.named.getOrElse("transfile",
     throw new IllegalArgumentException("Missing argument: --transfile"))
-  val file = new File(fileName)
-  val records = new FileRecordRepository(file)
+  val transFile = new File(transFileName)
+  val recordRepo = new FileRecordRepository(transFile)
 
-  val model = new ShellModel(records)
+  val soFileName = parameters.named.getOrElse("sofile",
+    throw new IllegalArgumentException("Missing argument: --sofile"))
+  val soFile = new File(soFileName)
+  val soRepo = new FileStandingOrderRepository(soFile)
+
+  val model = new ShellModel(recordRepo, soRepo)
   val viewModel = new ShellViewModel(model)
   val view = new ShellView(viewModel)
 

@@ -4,7 +4,7 @@ import java.time.Month
 
 import accounts.core.view.View
 import accounts.record.{AccountType, TransactionCategory, TransactionType}
-import accounts.viewmodel.{FiltersViewModel, RecordViewModel}
+import accounts.viewmodel.FiltersViewModel
 
 import scalafx.Includes._
 import scalafx.application.Platform
@@ -13,11 +13,8 @@ import scalafx.scene.control.{TextFormatter, _}
 import scalafx.scene.layout.{GridPane, HBox, Priority}
 import scalafx.util.StringConverter
 
-object HeaderView {
-  val NumericMonthRegex = "([0-9]{1,2})".r
-}
-
-class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView) extends View {
+class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView, standingOrders: StandingOrdersView)
+  extends View {
 
   val textFilterField = new TextField {
     promptText = "Code"
@@ -105,7 +102,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView) extends Vi
       children = Seq(
         new DatePicker {
           promptText = "Start Date"
-          converter = RecordViewModel.dateConverter
+          converter = View.dateConverter
           // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
           focused.onChange { (_, _, focusGained) =>
             if (focusGained) {
@@ -118,7 +115,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView) extends Vi
         },
         new DatePicker {
           promptText = "End Date"
-          converter = RecordViewModel.dateConverter
+          converter = View.dateConverter
           // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
           focused.onChange { (_, _, focusGained) =>
             if (focusGained) {
@@ -164,16 +161,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView) extends Vi
           editable = true
           promptText = "Month"
           prefWidth = 100
-          converter = StringConverter[Option[Month]]({
-            Option(_).filter(s => !s.isEmpty && !s.equalsIgnoreCase("all")).map {
-              case HeaderView.NumericMonthRegex(s) => Month.of(s.toInt)
-              case s => Month.valueOf(s.toUpperCase)
-            }
-          },
-          {
-            case None => ""
-            case Some(m) => m.toString.toLowerCase.capitalize
-          })
+          converter = View.optionMonthConverter
           // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
           focused.onChange { (_, _, focusGained) =>
             if (focusGained) {
@@ -211,6 +199,8 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView) extends Vi
     }, columnIndex = 6, rowIndex = 0, colspan = 2, rowspan = 1)
 
     add(addRecord.button, columnIndex = 6, rowIndex = 1)
+
+    add(standingOrders.button, columnIndex = 6, rowIndex = 2)
 
   }
 }

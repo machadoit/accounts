@@ -139,4 +139,14 @@ object ViewModel extends StrictLogging {
 
 trait ViewModel {
   implicit protected val vmState = ViewModel.singletonVmState
+
+  protected def update(f: => Unit) = {
+    try {
+      vmState.updating = true
+      f
+      vmState.refresh()
+    } finally {
+      vmState.updating = false
+    }
+  }
 }

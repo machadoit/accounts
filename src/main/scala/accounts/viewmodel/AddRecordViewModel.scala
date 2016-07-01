@@ -28,35 +28,17 @@ class AddRecordViewModel(model: AddRecordModel) extends ViewModel {
 
   val incomplete = CalculatedProperty.boolean(!model.complete)
 
-  def save(): Unit = {
-    try {
-      vmState.updating = true
-      model.save()
-      vmState.refresh()
-    } finally {
-      vmState.updating = false
-    }
+  def save(): Unit = update {
+    model.save()
   }
 
-  def reset(): Unit = {
-    try {
-      vmState.updating = true
-      doReset()
-      vmState.refresh()
-    } finally {
-      vmState.updating = false
-    }
+  def reset(): Unit = update {
+    doReset()
   }
 
-  def saveAndReset(): Unit = {
-    try {
-      vmState.updating = true
-      model.save()
-      doReset()
-      vmState.refresh()
-    } finally {
-      vmState.updating = false
-    }
+  def saveAndReset(): Unit = update {
+    model.save()
+    doReset()
   }
 
   private def doReset(): Unit = {

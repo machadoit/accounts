@@ -2,7 +2,7 @@ package accounts.view
 
 import accounts.core.view.View
 import accounts.record.{AccountType, IncomeType, TransactionType}
-import accounts.viewmodel.{AddRecordViewModel, RecordViewModel}
+import accounts.viewmodel.AddRecordViewModel
 
 import scalafx.Includes._
 import scalafx.application.Platform
@@ -25,13 +25,13 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
     text = "Add Transaction"
     onAction = handle {
       vm.reset()
-      pnlWindow.show()
+      window.show()
       datePicker.requestFocus()
     }
   }
 
   private val datePicker = new DatePicker {
-    converter = RecordViewModel.dateConverter
+    converter = View.dateConverter
     // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
     focused.onChange { (_, _, focusGained) =>
       if (focusGained) {
@@ -43,10 +43,10 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
     value <==> vm.date
   }
 
-  val pnlWindow: Stage = new Stage {
+  val window: Stage = new Stage {
     scene = new Scene {
       root = new GridPane {
-        padding = Insets(top = 5, bottom = 20, left = 15, right = 15)
+        padding = Insets(top = 5, bottom = 15, left = 15, right = 15)
         hgap = 5
         vgap = 5
 
@@ -64,7 +64,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Reference:"
         }, columnIndex = 0, rowIndex = 2)
         add(new TextField {
-          textFormatter = new TextFormatter(RecordViewModel.optionIntConverter) {
+          textFormatter = new TextFormatter(View.optionIntConverter) {
             value <==> vm.reference
           }
         }, columnIndex = 1, rowIndex = 2)
@@ -109,8 +109,8 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               case PositiveIntRegex(s) => IncomeType.withValue(s.toInt)
               case s =>
                 IncomeType.values
-                  .filter(_.toString.toLowerCase.contains(s.toLowerCase))
-                  .headOption.getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
+                  .find(_.toString.toLowerCase.contains(s.toLowerCase))
+                  .getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
             }
           },
           {
@@ -132,7 +132,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Credit:"
         }, columnIndex = 0, rowIndex = 5)
         add(new TextField {
-          textFormatter = new TextFormatter(RecordViewModel.optionPositiveBigDecimalConverter) {
+          textFormatter = new TextFormatter(View.optionPositiveBigDecimalConverter) {
             value <==> vm.credit
           }
         }, columnIndex = 1, rowIndex = 5)
@@ -141,7 +141,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Debit:"
         }, columnIndex = 0, rowIndex = 6)
         add(new TextField {
-          textFormatter = new TextFormatter(RecordViewModel.optionPositiveBigDecimalConverter) {
+          textFormatter = new TextFormatter(View.optionPositiveBigDecimalConverter) {
             value <==> vm.debit
           }
         }, columnIndex = 1, rowIndex = 6)
@@ -156,8 +156,8 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               case PositiveIntRegex(s) => AccountType.withValue(s.toInt)
               case s =>
                 AccountType.values
-                  .filter(_.toString.toLowerCase.contains(s.toLowerCase))
-                  .headOption.getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
+                  .find(_.toString.toLowerCase.contains(s.toLowerCase))
+                  .getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
             }
           },
           {
@@ -179,7 +179,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Description:"
         }, columnIndex = 0, rowIndex = 8)
         add(new TextField {
-          textFormatter = new TextFormatter(RecordViewModel.optionStringConverter) {
+          textFormatter = new TextFormatter(View.optionStringConverter) {
             value <==> vm.description
           }
         }, columnIndex = 1, rowIndex = 8)
