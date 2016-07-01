@@ -11,20 +11,19 @@ install:
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sbt-bin.zip", "C:\sbt")
       }
   - cmd: Set PYTHON=C:\Python35
-  - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%;%PYTHON%\Scripts;%PATH%
+  - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%\Scripts;%PATH%
   - cmd: echo %PATH%
   - cmd: SET SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: java -version
-  - cmd: echo %PYTHON%
   - cmd: pip install codecov
 
 build_script:
-  - sbt clean windows:packageBin
+  - sbt clean windows:packageBin 
 test_script:
-  - sbt test
+  - sbt coverage test coverageReport codacyCoverage
 after_test: 
-  - "codecov"
+  - codecov
 artifacts:
   - path: 'target\scala-*\*.jar'
     name: Java Package
