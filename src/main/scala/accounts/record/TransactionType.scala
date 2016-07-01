@@ -144,7 +144,7 @@ object TransactionType extends Enum[TransactionType] {
   val values = TransactionCategory.values.map(c => Generic(c)) ++ findValues
 
   private val transactionValueMap: Map[Int, TransactionType] = values.map {
-    tt => println(tt); tt.value -> tt
+    tt => tt.value -> tt
   }.toMap
 
   def withValue(i: Int): TransactionType = transactionValueMap.getOrElse(
