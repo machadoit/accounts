@@ -34,7 +34,7 @@ object VariableTransactionType {
   }
   case class Unknown(protected val typeValue: Int, category: TransactionCategory)
     extends VariableTransactionType {
-    override protected def displaySuffix = (category.value * 100 + value).toString
+    override protected def displaySuffix = value.toString
   }  
 }
 
