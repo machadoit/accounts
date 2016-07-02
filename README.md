@@ -6,7 +6,10 @@
 [![Codecov](https://img.shields.io/codecov/c/github/bretts-org/accounts.svg)](https://codecov.io/gh/bretts-org/accounts)
 [![GitHub release](https://img.shields.io/github/release/bretts-org/accounts.svg)](https://github.com/bretts-org/accounts/releases/latest)
 
-Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com/), with the following features:
+Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com.
+
+### Features
+
 * View existing transactions
 * View P/L by category/month
 * View P/L by period, including brought forward and year to date totals
