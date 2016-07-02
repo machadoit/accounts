@@ -6,7 +6,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/bretts-org/accounts.svg)](https://codecov.io/gh/bretts-org/accounts)
 [![GitHub release](https://img.shields.io/github/release/bretts-org/accounts.svg)](https://github.com/bretts-org/accounts/releases/latest)
 
-Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com.
+Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com).
 
 ### Features
 
