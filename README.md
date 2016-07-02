@@ -12,7 +12,6 @@ Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com/), 
 * View P/L by period, including brought forward and year to date totals
 * Transaction and P/L filtering by account type, date range and transaction type
 * Add new transactions
-* Manage direct debits / standing orders (not yet implemented)
 
 ## Install from binary
 

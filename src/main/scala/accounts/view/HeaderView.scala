@@ -13,7 +13,7 @@ import scalafx.scene.control.{TextFormatter, _}
 import scalafx.scene.layout.{GridPane, HBox, Priority}
 import scalafx.util.StringConverter
 
-class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView, standingOrders: StandingOrdersView)
+class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
   extends View {
 
   val textFilterField = new TextField {
@@ -199,8 +199,5 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView, standingOr
     }, columnIndex = 6, rowIndex = 0, colspan = 2, rowspan = 1)
 
     add(addRecord.button, columnIndex = 6, rowIndex = 1)
-
-    add(standingOrders.button, columnIndex = 6, rowIndex = 2)
-
   }
 }

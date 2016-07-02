@@ -11,5 +11,4 @@ class ShellViewModel(model: ShellModel) {
   val pnl = new PnlViewModel(model.pnl)
 
   val addRecord = new AddRecordViewModel(model.addRecord)
-  val standingOrders = new StandingOrdersViewModel(model.standingOrders)
 }

@@ -1,8 +1,8 @@
 package accounts.model
 
-import accounts.record.repository.{RecordRepository, StandingOrderRepository}
+import accounts.record.repository.RecordRepository
 
-class ShellModel(recordRepo: RecordRepository, soRepo: StandingOrderRepository) {
+class ShellModel(recordRepo: RecordRepository) {
 
   val filters = new FiltersModel
   val grid = new GridModel(recordRepo, filters)
@@ -11,5 +11,4 @@ class ShellModel(recordRepo: RecordRepository, soRepo: StandingOrderRepository) 
   val pnl = new PnlModel(grid, filters)
 
   val addRecord = new AddRecordModel(grid, filters)
-  val standingOrders = new StandingOrdersModel(soRepo)
 }
