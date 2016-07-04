@@ -6,6 +6,7 @@ import javafx.scene.control.{ComboBox, TextField}
 import org.hamcrest.{BaseMatcher, Description, Matcher}
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.Assertions
+import org.testfx.util.WaitForAsyncUtils
 
 import scala.util.{Failure, Success, Try}
 
@@ -15,6 +16,8 @@ trait ViewMatchers extends Assertions with TypeCheckedTripleEquals {
     private var result: Try[Unit] = Success(())
 
     override def matches(item: Any): Boolean = {
+      // ensure all events have finished processing before checking assertions
+      WaitForAsyncUtils.waitForFxEvents()
       result = Try(assertion(item.asInstanceOf[A]))
       result.isSuccess
     }
