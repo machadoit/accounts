@@ -5,7 +5,6 @@ import accounts.model.FiltersModel
 import accounts.viewmodel.FiltersViewModel
 import org.scalactic.TypeCheckedTripleEquals
 import org.testfx.api.FxAssert.verifyThat
-import org.testfx.matcher.base.NodeMatchers.hasText
 
 import scalafx.scene.Scene
 import scalafx.scene.control.Button
@@ -33,8 +32,7 @@ class HeaderViewTest extends ViewTest with TypeCheckedTripleEquals {
     stage.show()
   }
 
-  "Transaction code field" when {
-
+  "Header panel" when {
     "created" should {
       "be empty" in {
         verifyThat("#transactionCodeField", hasText(""))
@@ -42,18 +40,57 @@ class HeaderViewTest extends ViewTest with TypeCheckedTripleEquals {
         verifyThat("#transactionTypeCombo", hasComboText("All Types"))
       }
     }
+  }
 
-    "a known code is entered" should {
-      def setup() = {
-        clickOn("#transactionCodeField")
-        write("113")
-        push(KeyCode.Enter)
-      }
+  "Transaction code field" when {
 
+    def enterStringCode(s: String) = {
+      clickOn("#transactionCodeField")
+      write(s)
+      push(KeyCode.Enter)
+    }
+
+    def enterCode(i: Int) = enterStringCode(i.toString)
+
+    "a known type is entered" should {
       "update combos" in {
-        setup()
+        enterCode(113)
         verifyThat("#transactionCategoryCombo", hasComboText("Food"))
         verifyThat("#transactionTypeCombo", hasComboText("Food: Fish"))
+      }
+    }
+
+    "an unknown type is entered" should {
+      "update combos" in {
+        enterCode(234)
+        verifyThat("#transactionCategoryCombo", hasComboText("Local Payment"))
+        verifyThat("#transactionTypeCombo", hasComboText("Local Payment: 234"))
+      }
+    }
+
+    "a known category is entered" should {
+      "update combos" in {
+        enterCode(3)
+        verifyThat("#transactionCategoryCombo", hasComboText("Wages"))
+        verifyThat("#transactionTypeCombo", hasComboText("All Types"))
+      }
+    }
+
+    "an unknown category is entered" should {
+      "leave combos unchanged" in {
+        enterCode(54)
+        verifyThat("#transactionCodeField", hasText("54"))
+        verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
+        verifyThat("#transactionTypeCombo", hasComboText("All Types"))
+      }
+    }
+
+    "an unparseable category is entered" should {
+      "leave fields unchanged" in {
+        enterStringCode("foo")
+        verifyThat("#transactionCodeField", hasText(""))
+        verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
+        verifyThat("#transactionTypeCombo", hasComboText("All Types"))
       }
     }
   }
