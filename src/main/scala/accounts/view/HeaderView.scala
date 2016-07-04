@@ -17,6 +17,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
   extends View {
 
   val textFilterField = new TextField {
+    id = "transactionCodeField"
     promptText = "Code"
     hgrow = Priority.Always
     textFormatter = new TextFormatter(StringConverter[Option[Int]](
@@ -76,6 +77,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
       spacing = 5
       children = Seq(
         new ComboBox[Option[TransactionCategory]](filters.transactionCategoryFilters) {
+          id = "transactionCategoryCombo"
           converter = StringConverter.toStringConverter {
             case None => "All Categories"
             case Some(tc) => tc.displayString
@@ -83,6 +85,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
           value <==> filters.transactionCategoryFilter
         },
         new ComboBox[Option[TransactionType]](filters.transactionTypeFilters) {
+          id = "transactionTypeCombo"
           converter = StringConverter.toStringConverter {
             case None => "All Types"
             case Some(tt) => tt.displayString

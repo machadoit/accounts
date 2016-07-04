@@ -28,6 +28,7 @@ libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.92-R10"
 libraryDependencies += "org.scalactic" %% "scalactic" % "2.2.6"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
+libraryDependencies += "org.loadui" % "testFx" % "3.1.2" % Test
 
 mainClass in (Compile, run) := Some("accounts.app.Accounts")
 // Fix for 'WARNING: Resource "com/sun/javafx/scene/control/skin/modena/modena.css" not found' when
