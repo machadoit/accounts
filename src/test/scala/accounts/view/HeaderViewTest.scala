@@ -36,6 +36,9 @@ class HeaderViewTest extends GuiTest with Assertions with TypeCheckedTripleEqual
     click(field, MouseButton.PRIMARY)
     `type`("113").push(KeyCode.ENTER)
 
+    // Hacky sleep to avoid race condition
+    Thread.sleep(100)
+
     val catCombo = find[ComboBox[Option[TransactionCategory]]]("#transactionCategoryCombo")
     assert(catCombo.getValue === Some(TransactionCategory.Food))
     val typeCombo = find[ComboBox[Option[TransactionType]]]("#transactionTypeCombo")
