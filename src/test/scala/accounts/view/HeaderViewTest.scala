@@ -1,48 +1,61 @@
 package accounts.view
 
-import javafx.scene.Parent
-
 import accounts.model.FiltersModel
-import accounts.record.{TransactionCategory, TransactionType}
+
 import accounts.viewmodel.FiltersViewModel
-import org.junit.Test
-import org.loadui.testfx.GuiTest
-import org.loadui.testfx.GuiTest._
-import javafx.scene.control.{ComboBox, TextField}
-import javafx.scene.input.{KeyCode, MouseButton}
-
 import org.scalactic.TypeCheckedTripleEquals
-import org.scalatest.Assertions
+import org.testfx.api.FxAssert.verifyThat
+import org.testfx.matcher.base.NodeMatchers.hasText
 
+import scalafx.scene.Scene
 import scalafx.scene.control.Button
+import scalafx.scene.input.KeyCode
+import scalafx.stage.Stage
 
-class HeaderViewTest extends GuiTest with Assertions with TypeCheckedTripleEquals {
+class HeaderViewTest extends ViewTest with TypeCheckedTripleEquals {
 
   def filtersModel = new FiltersModel()
   def filtersVm = new FiltersViewModel(filtersModel)
 
+  //noinspection MutatorLikeMethodIsParameterless
   def addRecordView = new AddRecordView {
-    override def button: Button = new Button()
+    override def button = new Button()
   }
 
-  // Lazy, to ensure that the header is created (once) on the JavaFX thread
-  lazy val header = new HeaderView(filtersVm, addRecordView)
+  def header = new HeaderView(filtersVm, addRecordView)
 
-  override def getRootNode: Parent = header.content
+  def scene = new Scene {
+    root = header.content
+  }
 
-  @Test
-  def testTransactionCodeEntry() = {
-    val field = find[TextField]("#transactionCodeField")
-    click(field, MouseButton.PRIMARY)
-    `type`("113").push(KeyCode.ENTER)
+  override def start(stage: Stage): Unit = {
+    stage.scene = scene
+    stage.show()
+  }
 
-    // Hacky sleep to avoid race condition
-    Thread.sleep(100)
+  "Transaction code field" when {
 
-    val catCombo = find[ComboBox[Option[TransactionCategory]]]("#transactionCategoryCombo")
-    assert(catCombo.getValue === Some(TransactionCategory.Food))
-    val typeCombo = find[ComboBox[Option[TransactionType]]]("#transactionTypeCombo")
-    assert(typeCombo.getValue === Some(TransactionType.Fish))
+    "created" should {
+      "be empty" in {
+        verifyThat("#transactionCodeField", hasText(""))
+        verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
+        verifyThat("#transactionTypeCombo", hasComboText("All Types"))
+      }
+    }
+
+    "a known code is entered" should {
+      def setup() = {
+        clickOn("#transactionCodeField")
+        write("113")
+        push(KeyCode.Enter)
+      }
+
+      "update combos" in {
+        setup()
+        verifyThat("#transactionCategoryCombo", hasComboText("Food"))
+        verifyThat("#transactionTypeCombo", hasComboText("Food: Fish"))
+      }
+    }
   }
 
 }

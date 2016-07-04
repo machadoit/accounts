@@ -19,6 +19,9 @@ scalacOptions := Seq(
   // "-Ywarn-numeric-widen", "-Ywarn-value-discard" <-- overly stringent warnings
 )
 
+// repository for scalatestfx
+resolvers += Resolver.bintrayRepo("haraldmaida", "maven")
+
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3"
 
@@ -28,8 +31,7 @@ libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.92-R10"
 libraryDependencies += "org.scalactic" %% "scalactic" % "2.2.6"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
-libraryDependencies += "org.loadui" % "testFx" % "3.1.2" % Test
-libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % Test
+libraryDependencies += "io.scalatestfx" %% "scalatestfx" % "0.0.2-alpha" % Test
 
 mainClass in (Compile, run) := Some("accounts.app.Accounts")
 // Fix for 'WARNING: Resource "com/sun/javafx/scene/control/skin/modena/modena.css" not found' when
