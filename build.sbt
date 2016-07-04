@@ -29,6 +29,7 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "2.2.6"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % Test
 libraryDependencies += "org.loadui" % "testFx" % "3.1.2" % Test
+libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % Test
 
 mainClass in (Compile, run) := Some("accounts.app.Accounts")
 // Fix for 'WARNING: Resource "com/sun/javafx/scene/control/skin/modena/modena.css" not found' when
