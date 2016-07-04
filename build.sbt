@@ -39,6 +39,15 @@ mainClass in (Compile, run) := Some("accounts.app.Accounts")
 unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/lib/ext/jfxrt.jar"))
 unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/ext/jfxrt.jar"))
 
+// Ensure UI tests run in headless mode
+fork in Test := true
+val defaultExtDirs = sys.props("java.ext.dirs")
+javaOptions in Test += "-Djava.ext.dirs=" + (baseDirectory.value / "lib" / "ext") + java.io.File.pathSeparator + defaultExtDirs
+javaOptions in Test += "-Dtestfx.robot=glass"
+javaOptions in Test += "-Dglass.platform=Monocle"
+javaOptions in Test += "-Dmonocle.platform=Headless"
+javaOptions in Test += "-Dprism.order=sw"
+
 enablePlugins(JavaAppPackaging, WindowsPlugin)
 
 // strip off any version suffixes when building the msi package, since WiX requires
