@@ -18,6 +18,8 @@ trait ViewMatchers extends Assertions with TypeCheckedTripleEquals {
     override def matches(item: Any): Boolean = {
       // ensure all events have finished processing before checking assertions
       WaitForAsyncUtils.waitForFxEvents()
+      // Hacky sleep
+      Thread.sleep(1000)
       result = Try(assertion(item.asInstanceOf[A]))
       result.isSuccess
     }
