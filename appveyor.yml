@@ -1,5 +1,10 @@
 version: '{build}'
 os: Windows Server 2012
+
+environment:
+  CODACY_PROJECT_TOKEN:
+    secure: h3lgKq47Oah4uAdyxMy1ywTsZjv4JgEyT08PxYuzwnGaDVGsFUWzFxB+RfFNY4Uc
+
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
