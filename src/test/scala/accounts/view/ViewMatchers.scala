@@ -20,6 +20,7 @@ trait ViewMatchers extends Assertions with TypeCheckedTripleEquals {
       WaitForAsyncUtils.waitForFxEvents()
       // Hacky sleep
       Thread.sleep(1000)
+      WaitForAsyncUtils.waitForFxEvents()
       result = Try(assertion(item.asInstanceOf[A]))
       result.isSuccess
     }
