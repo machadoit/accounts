@@ -53,24 +53,27 @@ class HeaderViewTest extends ViewTest with TypeCheckedTripleEquals {
     def enterCode(i: Int) = enterStringCode(i.toString)
 
     "a known type is entered" should {
-      "update combos" in {
+      "update fields" in {
         enterCode(113)
+        verifyThat("#transactionCodeField", hasText("113"))
         verifyThat("#transactionCategoryCombo", hasComboText("Food"))
         verifyThat("#transactionTypeCombo", hasComboText("Food: Fish"))
       }
     }
 
     "an unknown type is entered" should {
-      "update combos" in {
+      "update fields" in {
         enterCode(234)
+        verifyThat("#transactionCodeField", hasText("234"))
         verifyThat("#transactionCategoryCombo", hasComboText("Local Payment"))
         verifyThat("#transactionTypeCombo", hasComboText("Local Payment: 234"))
       }
     }
 
     "a known category is entered" should {
-      "update combos" in {
+      "update fields" in {
         enterCode(3)
+        verifyThat("#transactionCodeField", hasText("3"))
         verifyThat("#transactionCategoryCombo", hasComboText("Wages"))
         verifyThat("#transactionTypeCombo", hasComboText("All Types"))
       }
