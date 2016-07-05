@@ -21,7 +21,7 @@ install:
 build_script:
   - sbt clean windows:packageBin 
 test_script:
-  - sbt test
+  - sbt test test-ui:test
 
 artifacts:
   - path: 'target\scala-*\*.jar'
