@@ -7,10 +7,9 @@ import org.testfx.api.FxAssert.verifyThat
 import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 
-import scalafx.scene.Scene
+import scalafx.scene.Parent
 import scalafx.scene.control.Button
 import scalafx.scene.input.KeyCode
-import scalafx.stage.Stage
 
 class HeaderViewTest extends ViewTest with MockitoSugar {
 
@@ -21,13 +20,10 @@ class HeaderViewTest extends ViewTest with MockitoSugar {
 
   def header = new HeaderView(filtersVm, addRecordView)
 
-  override def start(stage: Stage): Unit = {
+  override def rootNode: Parent = {
     when(addRecordView.button).thenReturn(new Button)
 
-    stage.scene = new Scene {
-      root = header.content
-    }
-    stage.show()
+    header.content
   }
 
   "Header panel" when {

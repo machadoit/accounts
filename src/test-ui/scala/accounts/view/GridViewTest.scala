@@ -8,8 +8,7 @@ import org.scalatest.mockito.MockitoSugar
 import org.testfx.api.FxAssert.verifyThat
 import org.mockito.Mockito._
 
-import scalafx.scene.Scene
-import scalafx.stage.Stage
+import scalafx.scene.Parent
 
 class GridViewTest extends ViewTest with MockitoSugar {
 
@@ -18,13 +17,10 @@ class GridViewTest extends ViewTest with MockitoSugar {
   def vm = new GridViewModel(model)
   def grid = new GridView(vm)
 
-  override def start(stage: Stage): Unit = {
+  override def rootNode: Parent = {
     when(model.records).thenReturn(RecordRepositoryStub.all)
 
-    stage.scene = new Scene {
-      root = grid.content
-    }
-    stage.show()
+    grid.content
   }
 
   "A grid" should {
