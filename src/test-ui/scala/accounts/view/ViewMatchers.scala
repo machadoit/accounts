@@ -1,13 +1,14 @@
 package accounts.view
 
-import javafx.scene.Node
-import javafx.scene.control.{ComboBox, TextField}
+import javafx.scene.{Node, Parent}
+import javafx.scene.control._
 
 import org.hamcrest.{BaseMatcher, Description, Matcher}
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.Assertions
 import org.testfx.util.WaitForAsyncUtils
 
+import scala.collection.JavaConverters._
 import scala.util.{Failure, Success, Try}
 
 trait ViewMatchers extends Assertions with TypeCheckedTripleEquals {
@@ -41,6 +42,25 @@ trait ViewMatchers extends Assertions with TypeCheckedTripleEquals {
 
   def hasText(expected: String): Matcher[TextField] = matcher[TextField] { tf =>
     assert(text(tf) === expected)
+  }
+
+  private def rows(t: TableView[_]): Seq[TableRow[_]] = {
+    var current = t.getChildrenUnmodifiable
+    while (current.size === 1) current = current.get(0).asInstanceOf[Parent].getChildrenUnmodifiable
+    current = current.get(1).asInstanceOf[Parent].getChildrenUnmodifiable
+    while (!current.get(0).isInstanceOf[TableRow[_]]) current = current.get(0).asInstanceOf[Parent].getChildrenUnmodifiable
+    current.asScala.map(_.asInstanceOf[TableRow[_]]).filter(_.getItem !== null)
+  }
+
+  def hasCellText(column: Int, row: Int, expected: String) = matcher[TableView[_]] { t =>
+    val tableRow = rows(t)(row)
+    val cell = tableRow.getChildrenUnmodifiable.get(column).asInstanceOf[TableCell[_, _]]
+
+    assert(cell.getText === expected)
+  }
+
+  def hasRowsSize(expected: Int) =  matcher[TableView[_]] { t =>
+    assert(rows(t).size === expected)
   }
 }
 
