@@ -2,9 +2,10 @@ import sbt.Keys._
 import sbt._
 
 object Dependencies {
-  val settings = Seq(
+
+  val dependencyResolvers = Seq(
     // repository for scalatestfx
-    resolvers += Resolver.bintrayRepo("haraldmaida", "maven")
+    Resolver.bintrayRepo("haraldmaida", "maven")
   )
 
   val dependencies = Seq(
@@ -19,4 +20,10 @@ object Dependencies {
     "org.scalatest" %% "scalatest" % "3.0.0-RC4" % Test,
     "io.scalatestfx" %% "scalatestfx" % "0.0.2-alpha" % Test//UiTest.UiTest
   )
+
+  val settings = Seq(
+    resolvers ++= dependencyResolvers,
+    libraryDependencies ++= dependencies
+  )
+
 }
