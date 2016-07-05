@@ -3,8 +3,6 @@ import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import com.typesafe.sbt.packager.windows.WindowsPlugin
 import com.typesafe.sbt.packager.windows.WindowsPlugin.autoImport._
 import sbt.Keys._
-import sbt._
-import sbt.dsl._
 
 object Native {
 

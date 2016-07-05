@@ -1,6 +1,3 @@
-import com.typesafe.sbt.GitPlugin.autoImport._
-import com.typesafe.sbt.GitVersioning
-import sbt._
 import sbt.Keys._
 
 object Common {

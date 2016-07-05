@@ -10,5 +10,3 @@ val root = (
     enablePlugins(Native.plugins: _*)
     settings Native.settings
 )
-
-

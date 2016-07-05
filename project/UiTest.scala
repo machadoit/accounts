@@ -1,13 +1,10 @@
 import java.io.File
 
-import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
-import com.typesafe.sbt.packager.windows.WindowsPlugin
-import sbt.Keys._
 import sbt._
-import sbt.dsl._
+import sbt.Keys._
 
 object UiTest {
-  lazy val UiTest = config("test-ui") extend(Test)
+  lazy val UiTest = config("test-ui") extend Test
 
   private def defaultExtDirs = sys.props("java.ext.dirs")
 
