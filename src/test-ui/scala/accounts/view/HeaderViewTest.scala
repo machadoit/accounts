@@ -48,7 +48,6 @@ class HeaderViewTest extends ViewTest with TypeCheckedTripleEquals {
       clickOn("#transactionCodeField")
       write(s)
       push(KeyCode.Enter)
-      Thread.sleep(30000)
     }
 
     def enterCode(i: Int) = enterStringCode(i.toString)
