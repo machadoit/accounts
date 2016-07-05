@@ -26,9 +26,7 @@ install:
 build_script:
   - sbt clean windows:packageBin 
 test_script:
-  - sbt coverage test coverageReport codacyCoverage
-after_test: 
-  - codecov
+  - sbt test
 artifacts:
   - path: 'target\scala-*\*.jar'
     name: Java Package
