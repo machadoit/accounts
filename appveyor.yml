@@ -25,7 +25,7 @@ install:
   - cmd: pip install codecov
 
 build_script:
-  - sbt clean windows:packageBin
+  - sbt windows:packageBin
 
 test_script:
   - sbt coverage test test-ui:test coverageReport codacyCoverage
