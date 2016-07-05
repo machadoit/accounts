@@ -5,7 +5,7 @@ import accounts.record.IncomeType.{Cash, Cheque, DirectDebit}
 import accounts.record.TransactionCategory._
 import accounts.record.TransactionType._
 import accounts.record.{OpeningBalance, Record, Transaction}
-import accounts.util.TestUtils._
+import accounts.core.util.TestUtils._
 
 import scala.collection.mutable
 

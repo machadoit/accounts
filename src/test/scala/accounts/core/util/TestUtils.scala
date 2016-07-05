@@ -1,4 +1,4 @@
-package accounts.util
+package accounts.core.util
 
 import java.time.LocalDate
 
