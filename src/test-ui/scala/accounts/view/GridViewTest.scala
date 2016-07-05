@@ -26,7 +26,7 @@ class GridViewTest extends ViewTest with MockitoSugar {
   }
 
   "A grid" should {
-    "has the correct number of rows" in {
+    "have the correct number of rows" in {
       verifyThat(".table-view", hasRowsSize(7))
     }
 
