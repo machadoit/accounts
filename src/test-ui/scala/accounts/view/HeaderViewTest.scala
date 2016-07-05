@@ -3,7 +3,6 @@ package accounts.view
 import accounts.model.FiltersModel
 
 import accounts.viewmodel.FiltersViewModel
-import org.scalactic.TypeCheckedTripleEquals
 import org.testfx.api.FxAssert.verifyThat
 
 import scalafx.scene.Scene
@@ -11,7 +10,7 @@ import scalafx.scene.control.Button
 import scalafx.scene.input.KeyCode
 import scalafx.stage.Stage
 
-class HeaderViewTest extends ViewTest with TypeCheckedTripleEquals {
+class HeaderViewTest extends ViewTest {
 
   def filtersModel = new FiltersModel()
   def filtersVm = new FiltersViewModel(filtersModel)
