@@ -1,24 +1,25 @@
 package accounts.view
 
 import accounts.core.view.ViewTest
+import accounts.model.GridModel
 import accounts.record.repository.RecordRepositoryStub
-import accounts.viewmodel.{GridViewModel, RecordViewModel}
+import accounts.viewmodel.GridViewModel
 import org.scalatest.mockito.MockitoSugar
 import org.testfx.api.FxAssert.verifyThat
 import org.mockito.Mockito._
 
-import scalafx.collections.ObservableBuffer
 import scalafx.scene.Scene
 import scalafx.stage.Stage
 
 class GridViewTest extends ViewTest with MockitoSugar {
 
-  val vm = mock[GridViewModel]
+  val model = mock[GridModel]
 
+  def vm = new GridViewModel(model)
   def grid = new GridView(vm)
 
   override def start(stage: Stage): Unit = {
-    when(vm.records).thenReturn(ObservableBuffer(RecordRepositoryStub.all.map(new RecordViewModel(_))))
+    when(model.records).thenReturn(RecordRepositoryStub.all)
 
     stage.scene = new Scene {
       root = grid.content
