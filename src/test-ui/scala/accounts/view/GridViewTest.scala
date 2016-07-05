@@ -1,5 +1,6 @@
 package accounts.view
 
+import accounts.core.view.ViewTest
 import accounts.record.repository.RecordRepositoryStub
 import accounts.viewmodel.{GridViewModel, RecordViewModel}
 import org.scalatest.mockito.MockitoSugar

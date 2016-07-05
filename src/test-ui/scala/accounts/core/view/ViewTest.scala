@@ -1,5 +1,6 @@
-package accounts.view
+package accounts.core.view
 
+import accounts.core.view.matchers.ViewMatchers
 import com.typesafe.scalalogging.StrictLogging
 import io.scalatestfx.api.SfxRobot
 import io.scalatestfx.framework.scalatest.JFXAppFixture
