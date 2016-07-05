@@ -1,4 +1,4 @@
-val root = (
+val accounts = (
   project in file(".")
     configs UiTest.UiTest
     settings Common.settings
