@@ -30,10 +30,7 @@ cache:
     - $HOME/.sbt
 
 script:
-  - ~/bin/sbt ++$SCALA_VERSION clean coverage test test-ui:test coverageReport codacyCoverage
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - ~/bin/sbt ++$SCALA_VERSION test test-ui:test
 
 # Disable notifications (rely on Appveyor for build emails)
 notifications:
