@@ -4,30 +4,29 @@ import accounts.core.view.ViewTest
 import accounts.model.FiltersModel
 import accounts.viewmodel.FiltersViewModel
 import org.testfx.api.FxAssert.verifyThat
+import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
 
 import scalafx.scene.Scene
 import scalafx.scene.control.Button
 import scalafx.scene.input.KeyCode
 import scalafx.stage.Stage
 
-class HeaderViewTest extends ViewTest {
+class HeaderViewTest extends ViewTest with MockitoSugar {
 
   def filtersModel = new FiltersModel()
   def filtersVm = new FiltersViewModel(filtersModel)
 
-  //noinspection MutatorLikeMethodIsParameterless
-  def addRecordView = new AddRecordView {
-    override def button = new Button()
-  }
+  val addRecordView = mock[AddRecordView]
 
   def header = new HeaderView(filtersVm, addRecordView)
 
-  def scene = new Scene {
-    root = header.content
-  }
-
   override def start(stage: Stage): Unit = {
-    stage.scene = scene
+    when(addRecordView.button).thenReturn(new Button)
+
+    stage.scene = new Scene {
+      root = header.content
+    }
     stage.show()
   }
 

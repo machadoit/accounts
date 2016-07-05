@@ -13,19 +13,15 @@ import scalafx.scene.layout.{GridPane, HBox}
 import scalafx.stage.Stage
 import scalafx.util.StringConverter
 
-import AddRecordViewImpl._
+import AddRecordView._
 
-object AddRecordViewImpl {
+object AddRecordView {
   val PositiveIntRegex = "([0-9]+)".r
 }
 
-trait AddRecordView extends View {
-  def button: Button
-}
+class AddRecordView(vm: AddRecordViewModel) extends View {
 
-class AddRecordViewImpl(vm: AddRecordViewModel) extends AddRecordView {
-
-  override val button = new Button {
+  val button = new Button {
     text = "Add Transaction"
     onAction = handle {
       vm.reset()
