@@ -4,6 +4,7 @@ package object util {
 
   def os: Option[OS] = {
     val osName = sys.props("os.name")
+    println(s"OS: $osName")
     if (osName.toLowerCase.startsWith("windows")) Some(OS.Windows)
     else if (osName.toLowerCase.startsWith("mac")) Some(OS.MacOS)
     else if (osName.toLowerCase.startsWith("linux")) Some(OS.Linux)
