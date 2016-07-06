@@ -2,6 +2,7 @@ package accounts.view
 
 import accounts.core.view.ViewTest
 import accounts.model.FiltersModel
+import accounts.core.util._
 import accounts.viewmodel.FiltersViewModel
 import org.testfx.api.FxAssert.verifyThat
 import org.mockito.Mockito._
@@ -43,8 +44,17 @@ class HeaderViewTest extends ViewTest with MockitoSugar {
       write(s)
       push(KeyCode.Enter)
     }
-
     def enterCode(i: Int) = enterCodeString(i.toString)
+
+    def clearField() = {
+      // KeyCode.Shortcut doesn't work here for some reason
+      val shortCutKey = os match {
+        case Some(OS.MacOS) => KeyCode.Meta
+        case _ => KeyCode.Control
+      }
+      push(shortCutKey, KeyCode.A)
+      push(KeyCode.Delete)
+    }
 
     "a known type is entered" should {
       "update fields" in {
@@ -75,16 +85,31 @@ class HeaderViewTest extends ViewTest with MockitoSugar {
 
     "an unknown category is entered" should {
       "leave combos unchanged" in {
+        enterCode(113)
+        clearField()
         enterCode(54)
         verifyThat("#transactionCodeField", hasText("54"))
-        verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
-        verifyThat("#transactionTypeCombo", hasComboText("All Types"))
+        verifyThat("#transactionCategoryCombo", hasComboText("Food"))
+        verifyThat("#transactionTypeCombo", hasComboText("Food: Fish"))
       }
     }
 
-    "an unparseable category is entered" should {
+    "an unparseable string is entered" should {
       "leave fields unchanged" in {
+        enterCode(113)
+        clearField()
         enterCodeString("foo")
+        verifyThat("#transactionCodeField", hasText("113"))
+        verifyThat("#transactionCategoryCombo", hasComboText("Food"))
+        verifyThat("#transactionTypeCombo", hasComboText("Food: Fish"))
+      }
+    }
+
+    "an empty string is entered" should {
+      "set fields to empty" in {
+        enterCode(113)
+        clearField()
+        push(KeyCode.Enter)
         verifyThat("#transactionCodeField", hasText(""))
         verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
         verifyThat("#transactionTypeCombo", hasComboText("All Types"))
