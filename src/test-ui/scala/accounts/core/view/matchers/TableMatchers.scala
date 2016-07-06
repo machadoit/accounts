@@ -6,17 +6,20 @@ import javafx.scene.control.{TableCell, TableRow, TableView}
 import scala.collection.JavaConverters._
 
 trait TableMatchers extends MatchersBase {
-  private def closestRowParent(n: Parent): Parent = {
-    val children = n.getChildrenUnmodifiable.asScala
-    if (children.size === 1) closestRowParent(children.head.asInstanceOf[Parent])
-    else children(1).asInstanceOf[Parent]
+  private def closestRowParent(p: Parent): Parent = p.getChildrenUnmodifiable.asScala match {
+    case Seq() => p
+    case Seq(n) => closestRowParent(n.asInstanceOf[Parent])
+    case Seq(_, n1, _*) => n1.asInstanceOf[Parent]
   }
 
   private def rowChildren(n: Parent): Seq[TableRow[_]] = {
     val children = n.getChildrenUnmodifiable.asScala
     val typedChildren = children.collect { case t: TableRow[_] => t }
-    if (typedChildren.isEmpty) rowChildren(children.head.asInstanceOf[Parent])
-    else typedChildren.filter(_.getItem !== null)
+    if (typedChildren.isEmpty) {
+      children.headOption.toSeq.flatMap(c => rowChildren(c.asInstanceOf[Parent]))
+    } else {
+      typedChildren.filter(c => Option(c.getItem).isDefined)
+    }
   }
 
   private def rows(t: TableView[_]): Seq[TableRow[_]] = {
