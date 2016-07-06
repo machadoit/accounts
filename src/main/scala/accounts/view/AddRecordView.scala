@@ -5,7 +5,6 @@ import accounts.record.{AccountType, IncomeType, TransactionType}
 import accounts.viewmodel.AddRecordViewModel
 
 import scalafx.Includes._
-import scalafx.application.Platform
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.control._
@@ -32,14 +31,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
 
   private val datePicker = new DatePicker {
     converter = View.dateConverter
-    // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-    focused.onChange { (_, _, focusGained) =>
-      if (focusGained) {
-        Platform.runLater {
-          editor().selectAll()
-        }
-      }
-    }
+    focused.onChange(View.selectOnFocus(editor()) _)
     value <==> vm.date
   }
 
@@ -87,14 +79,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
             case None => ""
             case Some(tt) => tt.displayString
           })
-          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-          focused.onChange { (_, _, focusGained) =>
-            if (focusGained) {
-              Platform.runLater {
-                editor().selectAll()
-              }
-            }
-          }
+          focused.onChange(View.selectOnFocus(editor()) _)
           tooltip <== vm.transactionTypeTooltip
           value <==> vm.transactionType
         }, columnIndex = 1, rowIndex = 3)
@@ -117,14 +102,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
             case None => ""
             case Some(it) => it.displayString
           })
-          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-          focused.onChange { (_, _, focusGained) =>
-            if (focusGained) {
-              Platform.runLater {
-                editor().selectAll()
-              }
-            }
-          }
+          focused.onChange(View.selectOnFocus(editor()) _)
           value <==> vm.incomeType
         }, columnIndex = 1, rowIndex = 4)
 
@@ -164,14 +142,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
             case None => ""
             case Some(at) => at.toString
           })
-          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-          focused.onChange { (_, _, focusGained) =>
-            if (focusGained) {
-              Platform.runLater {
-                editor().selectAll()
-              }
-            }
-          }
+          focused.onChange(View.selectOnFocus(editor()) _)
           value <==> vm.accountType
         }, columnIndex = 1, rowIndex = 7)
 

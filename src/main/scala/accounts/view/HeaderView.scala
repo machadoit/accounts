@@ -7,7 +7,6 @@ import accounts.record.{AccountType, TransactionCategory, TransactionType}
 import accounts.viewmodel.FiltersViewModel
 
 import scalafx.Includes._
-import scalafx.application.Platform
 import scalafx.geometry.{Insets, Orientation, Pos}
 import scalafx.scene.control.{TextFormatter, _}
 import scalafx.scene.layout.{GridPane, HBox, Priority}
@@ -106,27 +105,13 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
         new DatePicker {
           promptText = "Start Date"
           converter = View.dateConverter
-          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-          focused.onChange { (_, _, focusGained) =>
-            if (focusGained) {
-              Platform.runLater {
-                editor().selectAll()
-              }
-            }
-          }
+          focused.onChange(View.selectOnFocus(editor()) _)
           value <==> filters.startDateFilter
         },
         new DatePicker {
           promptText = "End Date"
           converter = View.dateConverter
-          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-          focused.onChange { (_, _, focusGained) =>
-            if (focusGained) {
-              Platform.runLater {
-                editor().selectAll()
-              }
-            }
-          }
+          focused.onChange(View.selectOnFocus(editor()) _)
           value <==> filters.endDateFilter
         }
       )
@@ -165,14 +150,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
           promptText = "Month"
           prefWidth = 100
           converter = View.optionMonthConverter
-          // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
-          focused.onChange { (_, _, focusGained) =>
-            if (focusGained) {
-              Platform.runLater {
-                editor().selectAll()
-              }
-            }
-          }
+          focused.onChange(View.selectOnFocus(editor()) _)
           value <==> filters.monthFilter
         },
         new TextField {

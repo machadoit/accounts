@@ -5,9 +5,11 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.{TemporalAccessor, TemporalQuery}
 
 import scala.language.implicitConversions
+import scalafx.application.Platform
 import scalafx.beans.binding.Bindings
 import scalafx.beans.property.Property
-import scalafx.scene.control.{TableCell, TableColumn, Tooltip}
+import scalafx.beans.value.ObservableValue
+import scalafx.scene.control._
 import scalafx.util.StringConverter
 
 object View {
@@ -58,6 +60,19 @@ object View {
     case None => ""
     case Some(m) => m.toString.toLowerCase.capitalize
   })
+
+  // Workaround for https://bugs.openjdk.java.net/browse/JDK-8129400
+  def selectOnFocus[A](editor: TextField)(
+    v: ObservableValue[Boolean, java.lang.Boolean],
+    oldValue: java.lang.Boolean,
+    focusGained: java.lang.Boolean
+  ): Unit = {
+    if (focusGained) {
+      Platform.runLater {
+        editor.selectAll()
+      }
+    }
+  }
 }
 
 trait View {
