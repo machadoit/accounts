@@ -15,7 +15,7 @@ import scalafx.util.StringConverter
 class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
   extends View {
 
-  val textFilterField = new TextField {
+  val transactionCodeField = new TextField {
     id = "transactionCodeField"
     promptText = "Code"
     hgrow = Priority.Always
@@ -134,7 +134,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
 
     add(new HBox {
       spacing = 5
-      children = Seq(textFilterField)
+      children = Seq(transactionCodeField)
     }, columnIndex = 4, rowIndex = 2)
 
     add(new Label {
