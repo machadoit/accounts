@@ -38,6 +38,10 @@ artifacts:
     name: Java Package
   - path: 'target\windows\*.msi'
     name: Windows Installer
+  - path: '**\*.json'
+    name: JSON
+  - path: '**\cobertura.xml'
+    name: Cobertura
 
 deploy:
   provider: GitHub
