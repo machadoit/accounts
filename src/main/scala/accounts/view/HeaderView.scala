@@ -103,12 +103,14 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
       spacing = 5
       children = Seq(
         new DatePicker {
+          id = "startDatePicker"
           promptText = "Start Date"
           converter = View.dateConverter
           focused.onChange(View.selectOnFocus(editor()) _)
           value <==> filters.startDateFilter
         },
         new DatePicker {
+          id = "endDatePicker"
           promptText = "End Date"
           converter = View.dateConverter
           focused.onChange(View.selectOnFocus(editor()) _)
@@ -146,6 +148,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
       spacing = 5
       children = Seq(
         new ComboBox[Option[Month]](filters.monthFilters) {
+          id = "monthCombo"
           editable = true
           promptText = "Month"
           prefWidth = 100
@@ -154,6 +157,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
           value <==> filters.monthFilter
         },
         new TextField {
+          id = "yearField"
           promptText = "Year"
           prefWidth = 50
           textFormatter = new TextFormatter(StringConverter[Option[Int]](

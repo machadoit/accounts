@@ -38,13 +38,13 @@ class HeaderViewTest extends ViewTest with MockitoSugar {
 
   "Transaction code field" when {
 
-    def enterStringCode(s: String) = {
+    def enterCodeString(s: String) = {
       clickOn("#transactionCodeField")
       write(s)
       push(KeyCode.Enter)
     }
 
-    def enterCode(i: Int) = enterStringCode(i.toString)
+    def enterCode(i: Int) = enterCodeString(i.toString)
 
     "a known type is entered" should {
       "update fields" in {
@@ -84,10 +84,55 @@ class HeaderViewTest extends ViewTest with MockitoSugar {
 
     "an unparseable category is entered" should {
       "leave fields unchanged" in {
-        enterStringCode("foo")
+        enterCodeString("foo")
         verifyThat("#transactionCodeField", hasText(""))
         verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
         verifyThat("#transactionTypeCombo", hasComboText("All Types"))
+      }
+    }
+  }
+
+  "Month/Year fields" when {
+    def enterMonth(s: String) = {
+      clickOn("#monthCombo")
+      write(s)
+      push(KeyCode.Enter)
+    }
+
+    def enterYearString(s: String) = {
+      clickOn("#yearField")
+      write(s)
+      push(KeyCode.Enter)
+    }
+
+    def enterYear(i: Int) = enterYearString(i.toString)
+
+    "year is entered" should {
+      "update start and end dates" in {
+        enterYear(2015)
+        verifyThat("#yearField", hasText("2015"))
+        verifyThat("#startDatePicker", hasDateText("01-01-2015"))
+        verifyThat("#endDatePicker", hasDateText("31-12-2015"))
+      }
+    }
+
+    "month string and year are entered" should {
+      "update start and end dates" in {
+        enterMonth("March")
+        enterYear(2015)
+        verifyThat("#yearField", hasText("2015"))
+        verifyThat("#startDatePicker", hasDateText("01-03-2015"))
+        verifyThat("#endDatePicker", hasDateText("31-03-2015"))
+      }
+    }
+
+    "numeric month and year are entered" should {
+      "update start and end dates" in {
+        enterMonth("2")
+        enterYear(2012)
+        verifyThat("#yearField", hasText("2012"))
+        verifyThat("#startDatePicker", hasDateText("01-02-2012"))
+        verifyThat("#endDatePicker", hasDateText("29-02-2012"))
       }
     }
   }
